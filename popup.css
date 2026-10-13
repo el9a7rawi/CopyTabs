@@ -139,6 +139,7 @@ h1 { font-size: 16px; margin: 0; font-weight: 800; }
   width: 0; opacity: 0; padding: 6px 0; pointer-events: none; outline: none;
   transition: width 0.25s ease, opacity 0.2s ease, padding 0.25s ease;
 }
+#searchInput::-webkit-search-cancel-button { display: none; } /* زر المسح الخاص بنا يكفي */
 .searchbox.open #searchInput { width: 160px; opacity: 1; padding: 6px 2px; pointer-events: auto; }
 .search-clear {
   display: inline-grid; place-items: center; flex-shrink: 0;
