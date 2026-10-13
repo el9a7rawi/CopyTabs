@@ -60,10 +60,8 @@ body {
   margin-bottom: 12px;
 }
 .brand { display: flex; gap: 10px; align-items: center; }
-.logo {
-  width: 44px; height: 44px; border-radius: 14px;
-  display: grid; place-items: center; color: #fff;
-  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+.logo-img {
+  width: 44px; height: 44px; border-radius: 14px; display: block; flex-shrink: 0;
   box-shadow: var(--shadow);
 }
 h1 { font-size: 16px; margin: 0; font-weight: 800; }
@@ -99,6 +97,7 @@ h1 { font-size: 16px; margin: 0; font-weight: 800; }
 .primary-btn small { display: block; font-size: 12px; opacity: 0.9; }
 .btn-icon { display: grid; place-items: center; }
 .btn-icon svg { display: block; }
+.btn-icon img { display: block; border-radius: 7px; }
 .primary-btn:hover { filter: brightness(1.05); }
 .primary-btn:active { transform: scale(0.99); }
 .quick-row { display: flex; gap: 8px; margin-top: 8px; }
