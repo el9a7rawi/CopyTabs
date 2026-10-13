@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>CopyTabs — ناسخ روابط التبويبات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body data-theme="light">
+  <div class="app" role="application" aria-label="ناسخ روابط التبويبات">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </div>
+        <div>
+          <h1>ناسخ روابط التبويبات</h1>
+          <p class="subtitle">كل روابطك في ملف واحد — بضغطة واحدة</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="count-badge" id="tabCount" title="عدد التبويبات الجاهزة">0</span>
+        <button id="themeToggle" class="icon-btn" aria-label="تبديل المظهر" title="فاتح / داكن">
+          <svg class="theme-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main action -->
+    <section class="hero">
+      <button id="mainExportBtn" class="primary-btn">
+        <span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>
+        <span>
+          <strong>احفظ كل روابطك الآن</strong>
+          <small id="heroHint">ملف مرقّم + نسخة في حافظتك</small>
+        </span>
+      </button>
+      <div class="quick-row">
+        <button id="copyOnlyBtn" class="ghost-btn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>نسخ سريع</button>
+        <button id="downloadOnlyBtn" class="ghost-btn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>تحميل TXT</button>
+      </div>
+      <p id="statusMsg" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Search + preview -->
+    <section class="card">
+      <div class="card-head">
+        <h2>المعاينة</h2>
+        <div class="searchbox">
+          <button type="button" id="searchToggle" class="icon-btn sm" aria-label="بحث في الروابط" title="بحث" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <input id="searchInput" type="search" placeholder="ابحث عن رابط أو عنوان…" aria-label="بحث في الروابط" tabindex="-1" />
+          <button type="button" id="searchClear" class="search-clear" aria-label="مسح البحث" title="مسح" hidden>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <ul id="previewList" class="preview" aria-label="قائمة الروابط"></ul>
+      <p id="emptyState" class="empty" hidden>لا توجد تبويبات مطابقة. جرّب تغيير البحث أو النطاق.</p>
+    </section>
+
+    <!-- 10 options -->
+    <section class="card">
+      <div class="card-head">
+        <h2>خصّص التصدير</h2>
+        <button id="resetBtn" class="icon-btn sm" aria-label="إعادة ضبط الخيارات" title="إعادة ضبط الخيارات"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+      </div>
+
+      <div class="opts">
+        <!-- 1 -->
+        <div class="opt">
+          <label id="scopeLabel">1. نطاق النسخ</label>
+          <div class="cselect" data-select="scope">
+            <button type="button" class="cselect-btn" aria-labelledby="scopeLabel" aria-haspopup="listbox" aria-expanded="false">
+              <span class="cselect-value">النافذة الحالية فقط</span>
+              <span class="cselect-chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </button>
+            <ul class="cselect-menu" role="listbox" aria-labelledby="scopeLabel" hidden></ul>
+            <select id="scope" tabindex="-1" aria-hidden="true">
+              <option value="current">النافذة الحالية فقط</option>
+              <option value="all">كل النوافذ</option>
+            </select>
+          </div>
+        </div>
+        <!-- 2 -->
+        <label class="opt switch-opt">
+          <span>2. تضمين عنوان الصفحة مع الرابط</span>
+          <input type="checkbox" id="includeTitles" />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <!-- 3 -->
+        <label class="opt switch-opt">
+          <span>3. إزالة الروابط المكررة</span>
+          <input type="checkbox" id="removeDuplicates" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <!-- 4 -->
+        <label class="opt switch-opt">
+          <span>4. تخطي صفحات النظام (chrome://)</span>
+          <input type="checkbox" id="skipSystem" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <!-- 5 -->
+        <div class="opt">
+          <label id="sortOrderLabel">5. الترتيب</label>
+          <div class="cselect" data-select="sortOrder">
+            <button type="button" class="cselect-btn" aria-labelledby="sortOrderLabel" aria-haspopup="listbox" aria-expanded="false">
+              <span class="cselect-value">الأصلي كما في المتصفح</span>
+              <span class="cselect-chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </button>
+            <ul class="cselect-menu" role="listbox" aria-labelledby="sortOrderLabel" hidden></ul>
+            <select id="sortOrder" tabindex="-1" aria-hidden="true">
+              <option value="original">الأصلي كما في المتصفح</option>
+              <option value="az">أبجدي (A-Z)</option>
+              <option value="domain">حسب الدومين</option>
+            </select>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="opt">
+          <label id="numberFormatLabel">6. تنسيق الترقيم</label>
+          <div class="cselect" data-select="numberFormat">
+            <button type="button" class="cselect-btn" aria-labelledby="numberFormatLabel" aria-haspopup="listbox" aria-expanded="false">
+              <span class="cselect-value">1. الرابط</span>
+              <span class="cselect-chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </button>
+            <ul class="cselect-menu" role="listbox" aria-labelledby="numberFormatLabel" hidden></ul>
+            <select id="numberFormat" tabindex="-1" aria-hidden="true">
+              <option value="dot">1. الرابط</option>
+              <option value="paren">1) الرابط</option>
+              <option value="dash">- الرابط</option>
+            </select>
+          </div>
+        </div>
+        <!-- 7 -->
+        <div class="opt">
+          <label for="fileName">7. اسم ملف التحميل</label>
+          <input type="text" id="fileName" placeholder="tabs-links" maxlength="60" />
+        </div>
+        <!-- 8 -->
+        <label class="opt switch-opt">
+          <span>8. نسخ تلقائي للحافظة بعد التصدير</span>
+          <input type="checkbox" id="autoCopy" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <!-- 9 -->
+        <label class="opt switch-opt">
+          <span>9. حفظ سجل التصديرات</span>
+          <input type="checkbox" id="saveHistory" checked />
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section class="card">
+      <div class="card-head">
+        <h2>تصديراتك الأخيرة</h2>
+        <button id="clearHistoryBtn" class="icon-btn sm danger" aria-label="مسح السجل" title="مسح السجل"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      </div>
+      <ul id="historyList" class="history"></ul>
+      <p id="historyEmpty" class="empty">لا يوجد سجل بعد. أول تصدير سيظهر هنا.</p>
+    </section>
+
+    <footer class="footer">
+      <span>صُنع بكل لُطف ❤️ <span dir="ltr">Ahmed Yousry</span></span>
+    </footer>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

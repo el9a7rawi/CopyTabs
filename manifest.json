@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "CopyTabs | ناسخ روابط التبويبات بضغطة واحدة",
+  "short_name": "CopyTabs",
+  "version": "1.0.0",
+  "description": "كل روابط تبويباتك في TXT مرقّم بضغطة واحدة — سريع وخاص ويعمل أوفلاين.",
+  "minimum_chrome_version": "88",
+  "author": "Ahmed Yousry",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "CopyTabs — انسخ روابط التبويبات",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "permissions": ["tabs", "storage", "contextMenus", "downloads"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "فتح ناسخ روابط التبويبات"
+    },
+    "quick-export": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "تصدير سريع لملف TXT + نسخ للحافظة"
+    }
+  }
+}
