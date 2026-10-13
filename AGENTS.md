@@ -73,6 +73,9 @@ copy url/
     ├── icon32.png
     ├── icon48.png
     └── icon128.png    ← مطلوب لمتجر كروم (128 إجباري)
+├── assets/
+│   └── screenshots/   ← لقطات README (مولّدة بـ Playwright + stub لchrome APIs — ليست جزءًا من الإضافة)
+└── README.md          ← صفحة الريبو التسويقية (عربي + سكرينشوتات)
 ```
 
 **ممنوع:** إضافة أي ملف JS جديد دون تسجيله هنا. ممنوع إضافة مجلد `lib/` أو CDN للـ JS.
@@ -253,6 +256,7 @@ python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 | 2026-10-13 | حذف `default_locale` من manifest | كروم يرفض التحميل بدون مجلد `_locales` — العربية مضمّنة في HTML مباشرة ولا نستخدم `chrome.i18n` |
 | 2026-10-13 | سكرول رفيع 5px + Custom Select menus | طلب UX: إزالة مظهر الويندوز الافتراضي — السكرول بلون الهوية، والقوائم نوافذ عائمة مستقلة مع a11y كاملة |
 | 2026-10-13 | إصلاح manifest + صياغة تسويقية + أزرار أيقونية | حذف `theme_icons`/`web_accessible_resources:[]`/الحقول الفارغة (سبب خطأ التحميل) + اسم ووصف تسويقيان (≤132) + `Ahmed Yousry` + أيقونات SVG بدل النصوص + حذف زر الإعدادات من الـ popup |
+| 2026-10-13 | إصلاح تبديل أيقونة الثيم (`toggleAttribute`) | عناصر SVG لا تعكس خاصية `hidden` (IDL على HTMLElement فقط) — التعيين المباشر `.hidden=` كان expando صامتًا؛ الحل `toggleAttribute('hidden', force)` |
 
 ---
 

@@ -362,8 +362,9 @@ function applyTheme() {
   document.body.dataset.theme = dark ? 'dark' : 'light';
   const moon = document.querySelector('.theme-moon');
   const sun = document.querySelector('.theme-sun');
-  if (moon) moon.hidden = dark;
-  if (sun) sun.hidden = !dark;
+  // ملاحظة: عناصر SVG لا تعكس خاصية hidden تلقائيًا — نستخدم toggleAttribute
+  if (moon) moon.toggleAttribute('hidden', dark);
+  if (sun) sun.toggleAttribute('hidden', !dark);
   els.themeToggle.title = dark ? 'التبديل للوضع الفاتح' : 'التبديل للوضع الداكن';
   const dm = $('darkMode');
   if (dm) dm.checked = dark;
