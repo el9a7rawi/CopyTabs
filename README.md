@@ -224,6 +224,5 @@ python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 ---
 
 <p align="center">صُنع بكل لُطف ❤️ <b>Ahmed Yousry</b></p>
-<p align="center"><i>وفّرت عليك وقت؟ ⭐ على الريبو تساعد غيرك يوصلها.</i></p>
 
 </div>
