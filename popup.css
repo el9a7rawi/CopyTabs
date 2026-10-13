@@ -95,9 +95,6 @@ h1 { font-size: 16px; margin: 0; font-weight: 800; }
 }
 .primary-btn strong { display: block; font-size: 15px; font-weight: 800; }
 .primary-btn small { display: block; font-size: 12px; opacity: 0.9; }
-.btn-icon { display: grid; place-items: center; }
-.btn-icon svg { display: block; }
-.btn-icon img { display: block; border-radius: 7px; }
 .primary-btn:hover { filter: brightness(1.05); }
 .primary-btn:active { transform: scale(0.99); }
 .quick-row { display: flex; gap: 8px; margin-top: 8px; }
