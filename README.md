@@ -4,7 +4,7 @@
   <img src="icons/icon128.png" width="96" alt="CopyTabs" />
 </p>
 
-<h1 align="center">CopyTabs — كل روابط تبويباتك في ملف واحد، بضغطة واحدة</h1>
+<h1 align="center">كل روابط تبويباتك في ملف واحد، بضغطة واحدة — CopyTabs</h1>
 
 <p align="center">فاتح 15 تبويبًا للبحث؟ مجمّع شروحات؟ تراجع منافسين؟ بدل النسخ اليدوي رابطًا رابطًا — <b>اضغط زرًا واحدًا</b> واحصل على ملف <code>.txt</code> مرقّم وجاهز للمشاركة، <b>ونسخة فورية في حافظتك</b>.</p>
 
@@ -13,16 +13,15 @@
   <img src="https://img.shields.io/github/license/el9a7rawi/CopyTabs?color=7c3aed" alt="Apache 2.0" />
   <img src="https://img.shields.io/badge/PRs-Welcome-059669" alt="PRs welcome" />
   <img src="https://img.shields.io/badge/Manifest-V3-059669" alt="Manifest V3" />
-  <img src="https://img.shields.io/badge/Chrome_121+-Firefox_121+-4285F4" alt="Chrome 121 plus, Firefox 121 plus" />
   <img src="https://img.shields.io/badge/Arabic-RTL-7c3aed" alt="Arabic RTL" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
-<p align="center"><b>يعمل على متصفحك المفضل</b></p>
+<h3 align="center">حمّل نسخة متصفحك — اضغط على أيقونته</h3>
 
 <div align="center">
 
-| <img src="assets/browsers/chrome.svg" width="48" alt="Chrome" /><br><b>Chrome</b><br><sub>121+</sub> | <img src="assets/browsers/edge.svg" width="48" alt="Edge" /><br><b>Edge</b><br><sub>121+</sub> | <img src="assets/browsers/firefox.svg" width="48" alt="Firefox" /><br><b>Firefox</b><br><sub>121+</sub> | <img src="assets/browsers/brave.svg" width="48" alt="Brave" /><br><b>Brave</b><br><sub>121+</sub> | <img src="assets/browsers/opera.svg" width="48" alt="Opera" /><br><b>Opera</b><br><sub>121+</sub> |
+| [<img src="assets/browsers/chrome.svg" width="52" alt="Chrome" /><br><b>Chrome</b><br><sub>121+</sub>](https://github.com/el9a7rawi/CopyTabs/releases/latest) | [<img src="assets/browsers/edge.svg" width="52" alt="Edge" /><br><b>Edge</b><br><sub>121+</sub>](https://github.com/el9a7rawi/CopyTabs/releases/latest) | [<img src="assets/browsers/firefox.svg" width="52" alt="Firefox" /><br><b>Firefox</b><br><sub>121+</sub>](https://github.com/el9a7rawi/CopyTabs/releases/latest) | [<img src="assets/browsers/brave.svg" width="52" alt="Brave" /><br><b>Brave</b><br><sub>121+</sub>](https://github.com/el9a7rawi/CopyTabs/releases/latest) | [<img src="assets/browsers/opera.svg" width="52" alt="Opera" /><br><b>Opera</b><br><sub>121+</sub>](https://github.com/el9a7rawi/CopyTabs/releases/latest) |
 |---|---|---|---|---|
 
 </div>
@@ -59,7 +58,7 @@
 
 ## 2. كيف يعمل؟ (3 خطوات فقط)
 
-1. **افتح** الإضافة من شريط كروم — ستجد كل تبويباتك معروضة أمامك مع عدّاد حي.
+1. **افتح** الإضافة من شريط المتصفح — ستجد كل تبويباتك معروضة أمامك مع عدّاد حي.
 2. **اضغط** «احفظ كل روابطك الآن» — أو راجع المعاينة وحدّد ما تريد بزر لكل رابط.
 3. **شارك** — ملف `.txt` يُحمَّل فورًا، والنص نفسه في حافظتك، ونسخة محفوظة في سجل تصديراتك.
 
@@ -185,7 +184,7 @@
 
 **للمطورين من السورس:** `git clone` ثم Load unpacked للمجلد مباشرة.
 
-> لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط. المتطلبات: Chrome 121+ أو Firefox 121+.
+> لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط. المتطلبات: Chrome / Edge / Brave / Opera / Firefox بإصدار 121+.
 
 ---
 
@@ -229,6 +228,7 @@
 ├── background.js      ← خلفية هجينة (service_worker لكروم + scripts لفايرفوكس)
 ├── options.html/js    ← مرآة الإعدادات
 ├── icons/             ← 16 / 32 / 48 / 128
+├── assets/            ← سكرينشوتات README + أيقونات المتصفحات
 └── tools/build.py     ← بناء نسخ المتاجر + SHA256 (يُستخدم في CI والإصدارات)
 ```
 
@@ -255,5 +255,4 @@ python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 ---
 
 <p align="center">صُنع بكل لُطف ❤️ <b>Ahmed Yousry</b></p>
-
 </div>
