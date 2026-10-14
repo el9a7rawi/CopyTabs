@@ -17,8 +17,8 @@
 </p>
 
 <p align="center">
-  <img src="assets/screenshots/popup-light.png" width="280" alt="الوضع الفاتح" />
-  <img src="assets/screenshots/popup-dark.png" width="280" alt="الوضع الداكن" />
+  <img src="assets/screenshots/popup-light.webp" width="280" alt="الوضع الفاتح" />
+  <img src="assets/screenshots/popup-dark.webp" width="280" alt="الوضع الداكن" />
 </p>
 
 ---
@@ -59,7 +59,7 @@
 
 ### 3.1 أزرار التصدير الثلاثة
 
-<p align="center"><img src="assets/screenshots/section-actions.png" width="400" alt="أزرار التصدير" /></p>
+<p align="center"><img src="assets/screenshots/section-actions.webp" width="400" alt="أزرار التصدير" /></p>
 
 - **«احفظ كل روابطك الآن»** — الزر الرئيسي: يصدّر الروابط المحددة، ويحمّل الملف، وينسخ النص للحافظة في ضغطة واحدة، وتحته سطر حي بعدد الروابط الجاهزة.
 - **«نسخ سريع»** — نسخ للحافظة فقط دون تحميل ملف.
@@ -68,7 +68,7 @@
 
 ### 3.2 المعاينة والبحث الحي
 
-<p align="center"><img src="assets/screenshots/section-preview.png" width="400" alt="المعاينة والبحث" /></p>
+<p align="center"><img src="assets/screenshots/section-preview.webp" width="400" alt="المعاينة والبحث" /></p>
 
 - كل رابط في بطاقة مستقلة: العنوان + الرابط + **زر تحديد خاص به** — إلغاء التحديد يسقطه من التصدير.
 - أيقونة العدسة تتوسع منها خانة البحث بحركة ناعمة، وتُرشّح المعاينة **لحظيًا** بالعنوان أو الرابط.
@@ -77,7 +77,7 @@
 
 ### 3.3 خصّص التصدير
 
-<p align="center"><img src="assets/screenshots/section-customize.png" width="360" alt="خيارات التصدير" /></p>
+<p align="center"><img src="assets/screenshots/section-customize.webp" width="360" alt="خيارات التصدير" /></p>
 
 - **3 قوائم مخصصة** بتصميم خاص (ليست قوائم الويندوز): النطاق، والترتيب، وتنسيق الترقيم — بدعم كامل للوحة المفاتيح وقارئ الشاشة.
 - **مفاتيح تشغيل/إيقاف**: تضمين العناوين، إزالة المكرر، تخطي صفحات النظام، النسخ التلقائي، حفظ السجل.
@@ -87,7 +87,7 @@
 
 ### 3.4 تصديراتك الأخيرة
 
-<p align="center"><img src="assets/screenshots/section-history.png" width="400" alt="سجل التصديرات" /></p>
+<p align="center"><img src="assets/screenshots/section-history.webp" width="400" alt="سجل التصديرات" /></p>
 
 - آخر **10 تصديرات**: التاريخ والوقت + عدد الروابط لكل عملية.
 - زر **تحميل** لكل نسخة محفوظة + زر **مسح السجل** (السلة) أعلى القسم.
@@ -95,19 +95,19 @@
 
 ### 3.5 أسود حقيقي مريح للعين
 
-<p align="center"><img src="assets/screenshots/popup-dark.png" width="280" alt="الوضع الداكن" /></p>
+<p align="center"><img src="assets/screenshots/popup-dark.webp" width="280" alt="الوضع الداكن" /></p>
 
 وضع داكن بخلفية سوداء فعلية وتباين محسوب، يُبدَّل بأيقونة شمس/قمر في الهيدر ويُحفَظ تلقائيًا.
 
 ### 3.6 قوائم بتصميم خاص
 
-<p align="center"><img src="assets/screenshots/popup-menu.png" width="280" alt="قائمة مخصصة مفتوحة" /></p>
+<p align="center"><img src="assets/screenshots/popup-menu.webp" width="280" alt="قائمة مخصصة مفتوحة" /></p>
 
 لا قوائم ويندوز افتراضية: النطاق والترتيب والترقيم نوافذ عائمة أنيقة بعلامة تحديد ✓ ودعم كامل للوحة المفاتيح وقارئ الشاشة.
 
 ### 3.7 الإعدادات على الشاشات الكبيرة
 
-<p align="center"><img src="assets/screenshots/options.png" width="480" alt="صفحة الإعدادات" /></p>
+<p align="center"><img src="assets/screenshots/options.webp" width="480" alt="صفحة الإعدادات" /></p>
 
 صفحة إعدادات بنفس الخيارات وحفظ فوري، تُفتَح من تفاصيل الإضافة.
 
