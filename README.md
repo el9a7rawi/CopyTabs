@@ -161,9 +161,9 @@
 
 ## 6. التثبيت (دقيقة واحدة)
 
-من صفحة [Releases](https://github.com/el9a7rawi/CopyTabs/releases) حمّل النسخة الأخيرة — ملف لكل عائلة متصفحات:
+من صفحة [Releases](https://github.com/el9a7rawi/CopyTabs/releases) حمّل النسخة الأخيرة — **ملف باسم كل متصفح**: Chrome وEdge وBrave وOpera وFirefox (ملفات Chromium الأربعة متطابقة المحتوى، وملف Firefox يحمل إعدادات Gecko).
 
-**Chrome / Edge / Brave / Opera** (ملف `copytabs-chrome-vX.Y.Z.zip`):
+**Chrome / Edge / Brave / Opera** (ملف `copytabs-<المتصفح>-vX.Y.Z.zip` — مثال: `copytabs-edge-v1.0.1.zip`):
 
 1. فك ضغط الملف.
 2. افتح `chrome://extensions` (أو ما يقابلها) وفعّل **Developer mode**.

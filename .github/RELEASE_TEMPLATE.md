@@ -2,15 +2,20 @@
 
 ## CopyTabs v{{VERSION}} — ناسخ روابط التبويبات بضغطة واحدة
 
-أول إصدار عام: مجاني ومفتوح المصدر (Apache-2.0). زر واحد يجمع كل روابط تبويباتك في ملف `.txt` مرقّم + نسخة فورية في الحافظة — يعمل أوفلاين بالكامل.
+إصدار عام: مجاني ومفتوح المصدر (Apache-2.0). زر واحد يجمع كل روابط تبويباتك في ملف `.txt` مرقّم + نسخة فورية في الحافظة — يعمل أوفلاين بالكامل.
+
+**يدعم: Chrome وEdge وBrave وOpera وFirefox** — حمّل الملف الذي يحمل اسم متصفحك من الجدول بالأسفل.
 
 ### الملفات
 
-| الملف | الاستخدام |
+| الملف | لمتصفح |
 |---|---|
-| `copytabs-chrome-v{{VERSION}}.zip` | Chrome وEdge وBrave وOpera (نفس البناء) |
-| `copytabs-firefox-v{{VERSION}}.zip` | Firefox (نفس الملفات — الـ manifest يحمل إعدادات Gecko) |
-| `SHA256SUMS.txt` | بصمات التحقق من سلامة الملفات |
+| `copytabs-chrome-v{{VERSION}}.zip` | Chrome |
+| `copytabs-edge-v{{VERSION}}.zip` | Edge |
+| `copytabs-brave-v{{VERSION}}.zip` | Brave |
+| `copytabs-opera-v{{VERSION}}.zip` | Opera |
+| `copytabs-firefox-v{{VERSION}}.zip` | Firefox |
+| `SHA256SUMS.txt` | بصمات التحقق من سلامة كل الملفات أعلاه |
 | `Source code (zip / tar.gz)` | السورس كود الكامل (يُرفق تلقائيًا من GitHub) |
 
 ### التثبيت اليدوي — Chrome / Edge / Brave / Opera

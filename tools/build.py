@@ -5,11 +5,16 @@ Usage:
     python tools/build.py [--out dist]
 
 Output (in <out>/):
-    copytabs-chrome-vX.Y.Z.zip    <- Chrome / Edge / Brave / Opera (identical MV3 build)
+    copytabs-chrome-vX.Y.Z.zip    <- Chrome (Chromium build)
+    copytabs-edge-vX.Y.Z.zip      <- Edge (identical Chromium build, own file name)
+    copytabs-brave-vX.Y.Z.zip     <- Brave (identical Chromium build, own file name)
+    copytabs-opera-vX.Y.Z.zip     <- Opera (identical Chromium build, own file name)
     copytabs-firefox-vX.Y.Z.zip   <- Firefox (same files; manifest carries gecko settings)
     SHA256SUMS.txt                <- checksums for every artifact
 
 Same file set ships to every browser: one codebase, one manifest.json.
+Chrome-family browsers share identical content under per-browser file names,
+so every browser has its own clearly labeled download in the Release page.
 Chrome ignores `browser_specific_settings`; Firefox uses `background.scripts`.
 Exit code is non-zero on any validation failure (CI-friendly).
 """
@@ -41,6 +46,11 @@ REQUIRED_MANIFEST_KEYS = [
     "manifest_version", "name", "version", "action", "background",
     "icons", "permissions",
 ]
+
+# One clearly labeled file per supported browser. Chromium-family browsers
+# share byte-identical content; Firefox shares the same file set (its
+# manifest section carries the Gecko settings).
+BROWSERS = ["chrome", "edge", "brave", "opera", "firefox"]
 
 
 def fail(msg):
@@ -97,10 +107,7 @@ def main():
     out_dir = Path(sys.argv[sys.argv.index("--out") + 1]) if "--out" in sys.argv else ROOT / "dist"
     out_dir.mkdir(parents=True, exist_ok=True)
     version = validate_manifest()
-    artifacts = [
-        build_zip(out_dir, "chrome", version),
-        build_zip(out_dir, "firefox", version),
-    ]
+    artifacts = [build_zip(out_dir, browser, version) for browser in BROWSERS]
     write_checksums(out_dir, artifacts)
     print("BUILD OK")
 
