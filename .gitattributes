@@ -1,0 +1,7 @@
+# Normalize line endings across platforms (extension ZIPs must be clean)
+* text=auto eol=lf
+
+# Binary assets: no conversion, no diff noise
+*.png binary
+*.webp binary
+*.zip binary

@@ -14,6 +14,8 @@
   <img src="https://img.shields.io/badge/Chrome-88+-4285F4" alt="Chrome 88 plus" />
   <img src="https://img.shields.io/badge/Arabic-RTL-7c3aed" alt="Arabic RTL" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
+  <img src="https://img.shields.io/badge/License-Apache_2.0-7c3aed" alt="Apache 2.0" />
+  <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
 </p>
 
 <p align="center">
@@ -157,13 +159,25 @@
 
 ---
 
-## 6. التثبيت على كروم (دقيقة واحدة)
+## 6. التثبيت (دقيقة واحدة)
 
-1. حمّل الريبو (**Code ← Download ZIP** وفك الضغط، أو `git clone`).
-2. افتح `chrome://extensions` وفعّل **Developer mode**.
-3. اختر **Load unpacked** وحدّد مجلد المشروع، ثم ثبّت الأيقونة 📌.
+من صفحة [Releases](https://github.com/el9a7rawi/CopyTabs/releases) حمّل النسخة الأخيرة — ملف لكل عائلة متصفحات:
 
-> لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط.
+**Chrome / Edge / Brave / Opera** (ملف `copytabs-chrome-vX.Y.Z.zip`):
+
+1. فك ضغط الملف.
+2. افتح `chrome://extensions` (أو ما يقابلها) وفعّل **Developer mode**.
+3. اختر **Load unpacked** وحدّد المجلد المفكوك، ثم ثبّت الأيقونة 📌.
+
+**Firefox** (ملف `copytabs-firefox-vX.Y.Z.zip`):
+
+1. فك ضغط الملف.
+2. افتح `about:debugging` ← ‏This Firefox ← ‏Load Temporary Add-on ← اختر `manifest.json`.
+3. النسخة الموقّعة دائمًا من صفحة الإضافة على AMO (قريبًا).
+
+**للمطورين من السورس:** `git clone` ثم Load unpacked للمجلد مباشرة.
+
+> لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط. المتطلبات: Chrome 121+ أو Firefox 121+.
 
 ---
 
@@ -202,11 +216,12 @@
 <div dir="ltr">
 
 ```text
-├── manifest.json      ← إعلان Manifest V3
+├── manifest.json      ← إعلان MV3 واحد لكل المتصفحات (Chrome + Firefox)
 ├── popup.html/css/js  ← الواجهة (Cairo + Tajawal)
-├── background.js      ← Service Worker (شارة العدد + تصدير سريع)
+├── background.js      ← خلفية هجينة (service_worker لكروم + scripts لفايرفوكس)
 ├── options.html/js    ← مرآة الإعدادات
-└── icons/             ← 16 / 32 / 48 / 128
+├── icons/             ← 16 / 32 / 48 / 128
+└── tools/build.py     ← بناء نسخ المتاجر + SHA256 (يُستخدم في CI والإصدارات)
 ```
 
 </div>
@@ -220,6 +235,14 @@ python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 ```
 
 </div>
+
+---
+
+## 10. الرخصة والمساهمة
+
+المشروع مفتوح المصدر ومجاني للجميع برخصة **Apache-2.0** — استخدمه وعدّله وشاركه بحرية، التفاصيل في ملف [LICENSE](LICENSE).
+
+المساهمات مرحب بها: افتح Issue للبلاغات والاقتراحات، أو Pull Request مباشرة — وفحص CI التلقائي سيتحقق من سلامة الـ manifest وروابط الصور قبل الدمج.
 
 ---
 

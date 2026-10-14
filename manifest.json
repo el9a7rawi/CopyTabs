@@ -4,8 +4,18 @@
   "short_name": "CopyTabs",
   "version": "1.0.0",
   "description": "كل روابط تبويباتك في TXT مرقّم بضغطة واحدة — سريع وخاص ويعمل أوفلاين.",
-  "minimum_chrome_version": "88",
+  "minimum_chrome_version": "121",
   "author": "Ahmed Yousry",
+  "homepage_url": "https://github.com/el9a7rawi/CopyTabs",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "copytabs@ahmedyousry",
+      "strict_min_version": "121.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -23,6 +33,7 @@
     }
   },
   "background": {
+    "scripts": ["background.js"],
     "service_worker": "background.js",
     "type": "module"
   },

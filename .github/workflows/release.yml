@@ -1,0 +1,32 @@
+name: Release
+
+# Any tag like v1.0.0 triggers: validate -> build ZIPs -> publish GitHub Release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build artifacts
+        run: python tools/build.py --out dist
+
+      - name: Prepare release notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          sed "s/{{VERSION}}/$VERSION/g" .github/RELEASE_TEMPLATE.md > /tmp/NOTES.md
+
+      - name: Create GitHub Release
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "CopyTabs $GITHUB_REF_NAME" --notes-file /tmp/NOTES.md --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

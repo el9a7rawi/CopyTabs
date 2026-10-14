@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate manifest and build ZIPs
+        run: python tools/build.py --out dist
+
+      - name: Check README asset links resolve
+        run: python - <<'EOF'
+          import re, sys
+          from pathlib import Path
+          md = Path("README.md").read_text(encoding="utf-8")
+          refs = sorted(set(re.findall(r'(?:assets|icons)/[A-Za-z0-9_./-]+\.(?:png|webp)', md)))
+          missing = [p for p in refs if not Path(p).is_file()]
+          if missing:
+              print("Missing assets:", missing)
+              sys.exit(1)
+          print(f"README asset links OK ({len(refs)} files)")
+          EOF
