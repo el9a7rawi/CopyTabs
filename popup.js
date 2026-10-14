@@ -1,17 +1,16 @@
-// ===== ناسخ روابط التبويبات — popup.js (MV3, type=module) =====
-// best-practice: لا كود خارجي، لا eval، كل المدخلات تُعامل كنص (textContent).
+// popup.js — واجهة الإضافة (MV3, type=module). كل بيانات المستخدم تُعرض عبر textContent فقط.
 
 const DEFAULTS = {
-  scope: 'current',          // 1. النطاق
-  includeTitles: false,      // 2.
-  removeDuplicates: true,    // 3.
-  skipSystem: true,          // 4.
-  sortOrder: 'original',     // 5.
-  numberFormat: 'dot',       // 6. dot|paren|dash
-  fileName: 'tabs-links',    // 7.
-  autoCopy: true,            // 8.
-  darkMode: false,           // 9. (mirrors body[data-theme])
-  saveHistory: true          // 10.
+  scope: 'current',          // النطاق
+  includeTitles: false,      // تضمين العناوين
+  removeDuplicates: true,    // إزالة المكرر
+  skipSystem: true,          // تخطي صفحات النظام
+  sortOrder: 'original',     // الترتيب: original|az|domain
+  numberFormat: 'dot',       // الترقيم: dot|paren|dash
+  fileName: 'tabs-links',    // اسم الملف
+  autoCopy: true,            // نسخ تلقائي
+  darkMode: false,           // يعكس body[data-theme]
+  saveHistory: true          // حفظ السجل
 };
 
 const SYSTEM_PREFIXES = ['chrome://', 'edge://', 'about:', 'chrome-extension://', 'view-source:'];
@@ -38,7 +37,6 @@ const optIds = ['scope', 'includeTitles', 'removeDuplicates', 'skipSystem', 'sor
 
 let settings = { ...DEFAULTS };
 let allTabs = [];       // [{id, title, url, checked}]
-let lastExportText = '';
 
 init();
 
@@ -103,7 +101,7 @@ async function refreshTabs() {
     }
     const tabs = await chrome.tabs.query(query);
     allTabs = tabs
-      .filter((t) => t.url) // تجاهل بدون URL
+      .filter((t) => t.url)
       .filter((t) => (settings.skipSystem ? !isSystemUrl(t.url) : true))
       .map((t) => ({ id: t.id, title: (t.title || '').trim() || t.url, url: t.url, checked: true }));
 
@@ -118,7 +116,6 @@ async function refreshTabs() {
     applySort();
     renderPreview();
     updateBadge(allTabs.length);
-    // تحديث عدّاد الواجهة + تلميح الزر
     els.tabCount.textContent = String(allTabs.length);
     $('heroHint').textContent = allTabs.length
       ? `${allTabs.length} رابط جاهز — ملف مرقّم + نسخة فورية`
@@ -145,7 +142,7 @@ function domainOf(url) {
   try { return new URL(url).hostname; } catch { return url; }
 }
 
-// ---------- Search (أيقونة تتوسع بحركة ناعمة) ----------
+// ---------- Search ----------
 function expandSearch() {
   const box = els.searchToggle.closest('.searchbox');
   box.classList.add('open');
@@ -218,7 +215,6 @@ async function handleMainExport() {
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus('حدّد رابطًا واحدًا على الأقل.', true);
   const text = formatText(tabs);
-  lastExportText = text;
   let copied = false;
   if (settings.autoCopy) copied = await copyToClipboard(text);
   const okDl = await downloadTxt(text, buildFileName());
@@ -235,7 +231,6 @@ async function handleCopyOnly() {
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus('حدّد رابطًا واحدًا على الأقل.', true);
   const text = formatText(tabs);
-  lastExportText = text;
   const ok = await copyToClipboard(text);
   if (ok) {
     await pushHistory(tabs.length, text);
@@ -252,7 +247,6 @@ async function handleDownloadOnly() {
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus('حدّد رابطًا واحدًا على الأقل.', true);
   const text = formatText(tabs);
-  lastExportText = text;
   const ok = await downloadTxt(text, buildFileName());
   if (ok) {
     await pushHistory(tabs.length, text);
@@ -298,12 +292,12 @@ async function copyToClipboard(text) {
 
 async function downloadTxt(text, filename) {
   try {
-    // الطريقة المهنية: chrome.downloads (تحتاج صلاحية downloads)
+    // chrome.downloads أولًا، ثم Blob fallback دون صلاحيات
     const url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
     await chrome.downloads.download({ url, filename, saveAs: false });
     return true;
   } catch {
-    // fallback دون صلاحيات: blob + anchor
+    // Blob fallback
     try {
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
@@ -339,7 +333,7 @@ async function renderHistory() {
     const { ct_history = [] } = await chrome.storage.local.get(['ct_history']);
     els.historyList.innerHTML = '';
     els.historyEmpty.hidden = ct_history.length > 0;
-    ct_history.forEach((h, idx) => {
+    ct_history.forEach((h) => {
       const li = document.createElement('li');
       const d = new Date(h.at);
       const label = document.createElement('span');
@@ -410,7 +404,7 @@ function bindEvents() {
     applyTheme();
   });
 
-  // أي تغيير في الخيارات → حفظ + تحديث فوري
+  // أي تغيير في الخيارات يُحفظ ويُطبق فورًا
   for (const id of optIds) {
     const el = $(id);
     if (!el) continue;
@@ -439,7 +433,6 @@ function bindEvents() {
     await renderHistory();
   });
 
-  // إغلاق القوائم عند الضغط خارجها
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.cselect')) closeAllMenus();
   });
@@ -448,17 +441,16 @@ function bindEvents() {
   });
 }
 
-// ---------- Custom Select (قائمة أنيقة مستقلة) ----------
+// ---------- Custom Select ----------
 function enhanceCustomSelects() {
   document.querySelectorAll('.cselect').forEach((wrap) => {
     const selectId = wrap.dataset.select;
     const native = $(selectId);
     const btn = wrap.querySelector('.cselect-btn');
     const menu = wrap.querySelector('.cselect-menu');
-    const label = wrap.querySelector('.cselect-value');
     if (!native || !btn || !menu) return;
 
-    // بناء الخيارات من الـ select الأصلي (textContent فقط)
+    // بناء الخيارات (textContent فقط)
     menu.innerHTML = '';
     Array.from(native.options).forEach((opt, idx) => {
       const li = document.createElement('li');
@@ -496,7 +488,6 @@ function enhanceCustomSelects() {
       }
     });
 
-    // تنقل لوحة المفاتيح: أسهم + Enter
     btn.addEventListener('keydown', (e) => {
       const items = Array.from(menu.querySelectorAll('.cselect-option'));
       let hi = items.findIndex((li) => li.classList.contains('highlight'));

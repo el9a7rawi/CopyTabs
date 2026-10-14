@@ -1,6 +1,4 @@
-// ===== background.js — Service Worker (MV3, module) =====
-// مسؤوليات: إعدادات افتراضية + قائمة سياق + Badge بعدد التبويبات + أمر التصدير السريع.
-// best-practice: مستمعون في المستوى الأعلى (top-level)، لا DOM، لا XHR، الحفظ في chrome.storage.
+// background.js — خلفية الإضافة (مستمعون top-level فقط): إعدادات افتراضية، قائمة سياق، شارة العدد، تصدير سريع.
 
 const DEFAULTS = {
   scope: 'current',
@@ -45,14 +43,13 @@ function setupContextMenu() {
 }
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
-  if (info.menuItemId === 'ct-export') await quickExport(false);
+  if (info.menuItemId === 'ct-export') await quickExport();
 });
 
 chrome.commands.onCommand.addListener(async (command) => {
-  if (command === 'quick-export') await quickExport(true);
+  if (command === 'quick-export') await quickExport();
 });
 
-// تحديث Badge عند تغيّر التبويبات
 chrome.tabs.onCreated.addListener(refreshBadge);
 chrome.tabs.onRemoved.addListener(refreshBadge);
 chrome.tabs.onUpdated.addListener(refreshBadge);
@@ -78,7 +75,7 @@ function isSystem(url, skip) {
   return SYSTEM_PREFIXES.some((p) => url.startsWith(p));
 }
 
-async function quickExport(fromCommand) {
+async function quickExport() {
   try {
     const { ct_settings = DEFAULTS } = await chrome.storage.local.get(['ct_settings']);
     const s = { ...DEFAULTS, ...ct_settings };

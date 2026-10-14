@@ -9,13 +9,13 @@
 <p align="center">فاتح 15 تبويبًا للبحث؟ مجمّع شروحات؟ تراجع منافسين؟ بدل النسخ اليدوي رابطًا رابطًا — <b>اضغط زرًا واحدًا</b> واحصل على ملف <code>.txt</code> مرقّم وجاهز للمشاركة، <b>ونسخة فورية في حافظتك</b>.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-4f46e5" alt="Version 1.0.0" />
+  <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
+  <a href="https://github.com/el9a7rawi/CopyTabs/actions/workflows/ci.yml"><img src="https://github.com/el9a7rawi/CopyTabs/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <img src="https://img.shields.io/github/license/el9a7rawi/CopyTabs?color=7c3aed" alt="Apache 2.0" />
   <img src="https://img.shields.io/badge/Manifest-V3-059669" alt="Manifest V3" />
-  <img src="https://img.shields.io/badge/Chrome-88+-4285F4" alt="Chrome 88 plus" />
+  <img src="https://img.shields.io/badge/Chrome_121+-Firefox_121+-4285F4" alt="Chrome 121 plus, Firefox 121 plus" />
   <img src="https://img.shields.io/badge/Arabic-RTL-7c3aed" alt="Arabic RTL" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
-  <img src="https://img.shields.io/badge/License-Apache_2.0-7c3aed" alt="Apache 2.0" />
-  <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
 </p>
 
 <p align="center">
