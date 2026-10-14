@@ -10,17 +10,25 @@
 
 <p align="center">
   <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
-  <a href="https://github.com/el9a7rawi/CopyTabs/actions/workflows/ci.yml"><img src="https://github.com/el9a7rawi/CopyTabs/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <img src="https://img.shields.io/github/license/el9a7rawi/CopyTabs?color=7c3aed" alt="Apache 2.0" />
+  <img src="https://img.shields.io/badge/PRs-Welcome-059669" alt="PRs welcome" />
   <img src="https://img.shields.io/badge/Manifest-V3-059669" alt="Manifest V3" />
   <img src="https://img.shields.io/badge/Chrome_121+-Firefox_121+-4285F4" alt="Chrome 121 plus, Firefox 121 plus" />
   <img src="https://img.shields.io/badge/Arabic-RTL-7c3aed" alt="Arabic RTL" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
+<p align="center"><b>يعمل على متصفحك المفضل</b></p>
+
+<div align="center">
+
+| <img src="assets/browsers/chrome.svg" width="48" alt="Chrome" /><br><b>Chrome</b><br><sub>121+</sub> | <img src="assets/browsers/edge.svg" width="48" alt="Edge" /><br><b>Edge</b><br><sub>121+</sub> | <img src="assets/browsers/firefox.svg" width="48" alt="Firefox" /><br><b>Firefox</b><br><sub>121+</sub> | <img src="assets/browsers/brave.svg" width="48" alt="Brave" /><br><b>Brave</b><br><sub>121+</sub> | <img src="assets/browsers/opera.svg" width="48" alt="Opera" /><br><b>Opera</b><br><sub>121+</sub> |
+|---|---|---|---|---|
+
+</div>
+
 <p align="center">
   <img src="assets/screenshots/popup-light.webp" width="280" alt="الوضع الفاتح" />
-  <img src="assets/screenshots/popup-dark.webp" width="280" alt="الوضع الداكن" />
 </p>
 
 ---
