@@ -5,19 +5,20 @@ Usage:
     python tools/build.py [--out dist]
 
 Output (in <out>/):
-    copytabs-chrome-vX.Y.Z.zip    <- Chrome (Chromium build)
-    copytabs-edge-vX.Y.Z.zip      <- Edge (identical Chromium build, own file name)
-    copytabs-brave-vX.Y.Z.zip     <- Brave (identical Chromium build, own file name)
-    copytabs-opera-vX.Y.Z.zip     <- Opera (identical Chromium build, own file name)
-    copytabs-firefox-vX.Y.Z.zip   <- Firefox (same files; manifest carries gecko settings)
+    copytabs-chrome-vX.Y.Z.zip    <- Chromium build (no `background.scripts`: zero Chrome warnings)
+    copytabs-edge-vX.Y.Z.zip      <- Edge (same Chromium manifest, own file name)
+    copytabs-brave-vX.Y.Z.zip     <- Brave (same Chromium manifest, own file name)
+    copytabs-opera-vX.Y.Z.zip     <- Opera (same Chromium manifest, own file name)
+    copytabs-firefox-vX.Y.Z.zip   <- Firefox (keeps `background.scripts`: required, no service_worker support)
     SHA256SUMS.txt                <- checksums for every artifact
 
-Same file set ships to every browser: one codebase, one manifest.json.
-Chrome-family browsers share identical content under per-browser file names,
-so every browser has its own clearly labeled download in the Release page.
+One codebase, one source manifest.json. Chromium-family ZIPs strip ONLY the
+`background.scripts` key (Chrome 121+ merely warns about it, older Chrome
+refuses it); the Firefox ZIP keeps the source manifest untouched.
 Chrome ignores `browser_specific_settings`; Firefox uses `background.scripts`.
 Exit code is non-zero on any validation failure (CI-friendly).
 """
+import copy
 import hashlib
 import json
 import sys
@@ -33,8 +34,6 @@ PACKAGE_FILES = [
     "popup.css",
     "popup.js",
     "background.js",
-    "options.html",
-    "options.js",
     "LICENSE",
     "icons/icon16.png",
     "icons/icon32.png",
@@ -48,9 +47,10 @@ REQUIRED_MANIFEST_KEYS = [
 ]
 
 # One clearly labeled file per supported browser. Chromium-family browsers
-# share byte-identical content; Firefox shares the same file set (its
-# manifest section carries the Gecko settings).
+# share one manifest variant (no `scripts` key); Firefox keeps the source
+# manifest untouched (its manifest section carries the Gecko settings).
 BROWSERS = ["chrome", "edge", "brave", "opera", "firefox"]
+CHROMIUM_BROWSERS = ["chrome", "edge", "brave", "opera"]
 
 
 def fail(msg):
@@ -80,16 +80,38 @@ def validate_manifest():
     for rel in PACKAGE_FILES:
         if not (ROOT / rel).is_file():
             fail(f"packaged file is missing: {rel}")
+    # Guard: every emitted manifest variant must stay valid for its browser.
+    for browser in BROWSERS:
+        bg = manifest_for(browser, manifest)["background"]
+        if browser in CHROMIUM_BROWSERS:
+            if "scripts" in bg or "service_worker" not in bg:
+                fail(f"chromium manifest variant is wrong for {browser}")
+        elif "scripts" not in bg or "service_worker" not in bg:
+            fail("firefox manifest variant must keep BOTH background keys")
     print(f"manifest OK (v{version})")
-    return version
+    return manifest, version
 
 
-def build_zip(out_dir, browser, version):
+def manifest_for(browser, base):
+    """Per-browser manifest derived from the single source manifest."""
+    manifest = copy.deepcopy(base)
+    if browser in CHROMIUM_BROWSERS:
+        manifest["background"].pop("scripts", None)
+    return manifest
+
+
+def build_zip(out_dir, browser, base_manifest, version):
     name = f"copytabs-{browser}-v{version}.zip"
     path = out_dir / name
+    manifest_bytes = json.dumps(
+        manifest_for(browser, base_manifest), indent=2, ensure_ascii=False
+    ).encode("utf-8")
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for rel in PACKAGE_FILES:
-            zf.write(ROOT / rel, rel)
+            if rel == "manifest.json":
+                zf.writestr(rel, manifest_bytes)
+            else:
+                zf.write(ROOT / rel, rel)
     print(f"built {name} ({path.stat().st_size // 1024} KB)")
     return path
 
@@ -106,8 +128,8 @@ def write_checksums(out_dir, artifacts):
 def main():
     out_dir = Path(sys.argv[sys.argv.index("--out") + 1]) if "--out" in sys.argv else ROOT / "dist"
     out_dir.mkdir(parents=True, exist_ok=True)
-    version = validate_manifest()
-    artifacts = [build_zip(out_dir, browser, version) for browser in BROWSERS]
+    base_manifest, version = validate_manifest()
+    artifacts = [build_zip(out_dir, browser, base_manifest, version) for browser in BROWSERS]
     write_checksums(out_dir, artifacts)
     print("BUILD OK")
 

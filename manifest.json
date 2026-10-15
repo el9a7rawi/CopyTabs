@@ -37,7 +37,6 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "options_page": "options.html",
   "permissions": ["tabs", "storage", "contextMenus", "downloads"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
