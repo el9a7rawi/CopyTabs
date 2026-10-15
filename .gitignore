@@ -15,3 +15,6 @@ desktop.ini
 
 # Build output (rebuilt by CI on every release — never commit)
 dist/
+
+# Local agent system file — personal workflow rules, never push to GitHub
+AGENTS.md
