@@ -9,12 +9,13 @@ Output (in <out>/):
     copytabs-edge-vX.Y.Z.zip      <- Edge (same Chromium manifest, own file name)
     copytabs-brave-vX.Y.Z.zip     <- Brave (same Chromium manifest, own file name)
     copytabs-opera-vX.Y.Z.zip     <- Opera (same Chromium manifest, own file name)
-    copytabs-firefox-vX.Y.Z.zip   <- Firefox (keeps `background.scripts`: required, no service_worker support)
+    copytabs-firefox-vX.Y.Z.zip   <- Firefox (adds `background.scripts`: required, no service_worker support)
     SHA256SUMS.txt                <- checksums for every artifact
 
-One codebase, one source manifest.json. Chromium-family ZIPs strip ONLY the
-`background.scripts` key (Chrome 121+ merely warns about it, older Chrome
-refuses it); the Firefox ZIP keeps the source manifest untouched.
+One codebase, one source manifest.json, Chrome-clean out of the box — the
+`background.scripts` key never appears in the source (Chrome 121+ records it as
+a manifest error on every reload of the source folder). The Firefox ZIP adds
+the key back, since Firefox does not support `service_worker`.
 Chrome ignores `browser_specific_settings`; Firefox uses `background.scripts`.
 Exit code is non-zero on any validation failure (CI-friendly).
 """
@@ -47,8 +48,8 @@ REQUIRED_MANIFEST_KEYS = [
 ]
 
 # One clearly labeled file per supported browser. Chromium-family browsers
-# share one manifest variant (no `scripts` key); Firefox keeps the source
-# manifest untouched (its manifest section carries the Gecko settings).
+# ship the source manifest as-is (no `scripts` key); the Firefox ZIP gets
+# `background.scripts` added (its manifest section carries the Gecko settings).
 BROWSERS = ["chrome", "edge", "brave", "opera", "firefox"]
 CHROMIUM_BROWSERS = ["chrome", "edge", "brave", "opera"]
 
@@ -72,8 +73,10 @@ def validate_manifest():
     if not version or len(version.split(".")) != 3:
         fail(f"version must be semver X.Y.Z, got: {version!r}")
     bg = manifest.get("background", {})
-    if "service_worker" not in bg or "scripts" not in bg:
-        fail("background must define BOTH service_worker (Chrome) and scripts (Firefox)")
+    if "service_worker" not in bg:
+        fail("background must define service_worker")
+    if "scripts" in bg:
+        fail("source manifest must NOT contain background.scripts: Chrome records it as a manifest error on reload")
     gecko = manifest.get("browser_specific_settings", {}).get("gecko", {})
     if not gecko.get("id"):
         fail("browser_specific_settings.gecko.id is required for Firefox signing")
@@ -87,7 +90,7 @@ def validate_manifest():
             if "scripts" in bg or "service_worker" not in bg:
                 fail(f"chromium manifest variant is wrong for {browser}")
         elif "scripts" not in bg or "service_worker" not in bg:
-            fail("firefox manifest variant must keep BOTH background keys")
+            fail("firefox manifest variant must have background.scripts + service_worker")
     print(f"manifest OK (v{version})")
     return manifest, version
 
@@ -95,8 +98,9 @@ def validate_manifest():
 def manifest_for(browser, base):
     """Per-browser manifest derived from the single source manifest."""
     manifest = copy.deepcopy(base)
-    if browser in CHROMIUM_BROWSERS:
-        manifest["background"].pop("scripts", None)
+    if browser not in CHROMIUM_BROWSERS:
+        background = manifest["background"]
+        manifest["background"] = {"scripts": [background["service_worker"]], **background}
     return manifest
 
 

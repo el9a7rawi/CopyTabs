@@ -183,7 +183,7 @@
 2. افتح `about:debugging` ← ‏This Firefox ← ‏Load Temporary Add-on ← اختر `manifest.json`.
 3. النسخة الموقّعة دائمًا من صفحة الإضافة على AMO (قريبًا).
 
-**للمطورين من السورس:** `git clone` ثم Load unpacked للمجلد مباشرة.
+**للمطورين من السورس:** `git clone` ثم Load unpacked للمجلد مباشرة لمتصفحات Chromium؛ ولفايرفوكس استخدم نسخة البناء (`python tools/build.py`) — المصدر بدون `background.scripts` (تنظيف لكروم).
 
 > لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط. المتطلبات: Chrome / Edge / Brave / Opera / Firefox بإصدار 121+.
 
@@ -224,9 +224,9 @@
 <div dir="ltr">
 
 ```text
-├── manifest.json      ← إعلان MV3 واحد لكل المتصفحات (Chrome + Firefox)
+├── manifest.json      ← إعلان MV3 مصدري واحد (البناء يولّد نسخة كل متصفح)
 ├── popup.html/css/js  ← الواجهة (Cairo + Tajawal)
-├── background.js      ← خلفية هجينة (service_worker لكروم + scripts لفايرفوكس)
+├── background.js      ← خلفية موحّدة: service_worker، والبناء يضيفها كـ scripts لفايرفوكس
 ├── icons/             ← 16 / 32 / 48 / 128
 ├── assets/            ← سكرينشوتات README + أيقونات المتصفحات
 └── tools/build.py     ← بناء نسخ المتاجر + SHA256 (يُستخدم في CI والإصدارات)
