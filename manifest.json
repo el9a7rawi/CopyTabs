@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "CopyTabs | ناسخ روابط التبويبات بضغطة واحدة",
   "short_name": "CopyTabs",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "كل روابط تبويباتك في TXT مرقّم بضغطة واحدة — سريع وخاص ويعمل أوفلاين.",
   "minimum_chrome_version": "121",
   "author": "Ahmed Yousry",
