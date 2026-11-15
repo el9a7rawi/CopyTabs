@@ -1,24 +1,23 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/el9a7rawi/CopyTabs/v{{VERSION}}/icons/icon128.png" width="72" alt="CopyTabs" />
+  <img src="https://raw.githubusercontent.com/el9a7rawi/CopyTabs/v{{VERSION}}/icons/icon128.png" width="96" alt="CopyTabs" />
 </p>
 
 <h1 align="center">CopyTabs v{{VERSION}}</h1>
 
-<p align="center">One-click tab link copier — <b>free and open source</b> (Apache-2.0).</p>
+<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Manifest-V3-059669" alt="Manifest V3" />
-  <img src="https://img.shields.io/badge/Chrome_Edge_Brave_Opera-Firefox-4f46e5" alt="Supported browsers" />
+  <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
+  <a href="https://github.com/el9a7rawi/CopyTabs/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-E8710A" alt="Apache 2.0" /></a>
+  <a href="https://github.com/el9a7rawi/CopyTabs/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-22C55E" alt="PRs welcome" /></a>
+  <a href="https://developer.chrome.com/docs/extensions"><img src="https://img.shields.io/badge/Manifest-V3-4285F4" alt="Manifest V3" /></a>
+  <img src="https://img.shields.io/badge/Arabic_RTL_Interface-7c3aed" alt="Arabic RTL interface" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
-<p align="center">One click collects every open tab URL into a numbered <code>.txt</code> file and your clipboard — fully offline, no data leaves your device.</p>
-
 ---
 
-<h2 align="center">1. Release files</h2>
-
-<p align="center"><b>Supported: Chrome, Edge, Brave, Opera, and Firefox</b> — download the archive that matches your browser from the table below.</p>
+## 1. Release files
 
 <div align="center">
 
@@ -36,23 +35,23 @@
 
 ---
 
-<h2 align="center">2. Manual installation</h2>
+## 2. Installation — one minute
 
-### 2.1 Chrome / Edge / Brave / Opera
+**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-v{{VERSION}}.zip` — for example `copytabs-edge-v{{VERSION}}.zip`):
 
-1. Download your browser's archive (for example `copytabs-chrome-v{{VERSION}}.zip`) and unzip it.
+1. Unzip the archive.
 2. Open `chrome://extensions` (or the equivalent page) and enable **Developer mode**.
 3. Choose **Load unpacked**, select the unzipped folder, then pin the toolbar icon.
 
-### 2.2 Firefox
+**Firefox** (file `copytabs-firefox-v{{VERSION}}.zip`):
 
-1. Download `copytabs-firefox-v{{VERSION}}.zip` and unzip it.
+1. Unzip the archive.
 2. Open `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
 3. The signed build is always available on the AMO add-on page (coming soon).
 
 ---
 
-<h2 align="center">3. Requirements</h2>
+## 3. Requirements
 
 <div align="center">
 
@@ -65,7 +64,7 @@
 
 ---
 
-<h2 align="center">4. Verify file integrity</h2>
+## 4. Verify file integrity
 
 <p align="center">Compare the checksum of the file you downloaded with the matching line in <code>SHA256SUMS.txt</code> — a match means the archive is intact and untouched.</p>
 
@@ -89,10 +88,10 @@ sha256sum -c SHA256SUMS.txt
 
 ---
 
-<h2 align="center">5. Source code and license</h2>
+## 5. Source code and license
 
 <p align="center">The full source code is attached below, and the project is licensed under <b>Apache-2.0</b> — free to use, modify, and share.</p>
 
 ---
 
-<p align="center">Built with care by <b>Ahmed Yousry</b></p>
+<p align="center">Built with care by <b>Ahmed Yousry</b> · <a href="https://github.com/el9a7rawi/CopyTabs/blob/main/LICENSE">Apache-2.0</a></p>
