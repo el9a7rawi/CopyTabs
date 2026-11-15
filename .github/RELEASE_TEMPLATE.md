@@ -1,12 +1,10 @@
-<div dir="rtl">
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/el9a7rawi/CopyTabs/v{{VERSION}}/icons/icon128.png" width="72" alt="CopyTabs" />
 </p>
 
 <h1 align="center">CopyTabs v{{VERSION}}</h1>
 
-<p align="center">ناسخ روابط التبويبات بضغطة واحدة — <b>مجاني ومفتوح المصدر</b> (Apache-2.0).</p>
+<p align="center">One-click tab link copier — <b>free and open source</b> (Apache-2.0).</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Manifest-V3-059669" alt="Manifest V3" />
@@ -14,51 +12,51 @@
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
-<p align="center">زر واحد يجمع كل روابط تبويباتك في ملف <code>.txt</code> مرقّم + نسخة فورية في الحافظة — يعمل أوفلاين بالكامل.</p>
+<p align="center">One click collects every open tab URL into a numbered <code>.txt</code> file and your clipboard — fully offline, no data leaves your device.</p>
 
 ---
 
-<h2 align="center">1. ملفات الإصدار</h2>
+<h2 align="center">1. Release files</h2>
 
-<p align="center"><b>يدعم: Chrome وEdge وBrave وOpera وFirefox</b> — حمّل الملف الذي يحمل اسم متصفحك من الجدول.</p>
+<p align="center"><b>Supported: Chrome, Edge, Brave, Opera, and Firefox</b> — download the archive that matches your browser from the table below.</p>
 
 <div align="center">
 
-| الملف | لمتصفح |
+| File | Browser |
 |---|---|
 | `copytabs-chrome-v{{VERSION}}.zip` | Chrome |
 | `copytabs-edge-v{{VERSION}}.zip` | Edge |
 | `copytabs-brave-v{{VERSION}}.zip` | Brave |
 | `copytabs-opera-v{{VERSION}}.zip` | Opera |
 | `copytabs-firefox-v{{VERSION}}.zip` | Firefox |
-| `SHA256SUMS.txt` | بصمات التحقق من سلامة كل الملفات أعلاه |
-| `Source code (zip / tar.gz)` | السورس كود الكامل (يُرفق تلقائيًا من GitHub) |
+| `SHA256SUMS.txt` | Checksums for verifying the integrity of every file above |
+| `Source code (zip / tar.gz)` | Full source code (attached automatically by GitHub) |
 
 </div>
 
 ---
 
-<h2 align="center">2. التثبيت اليدوي</h2>
+<h2 align="center">2. Manual installation</h2>
 
 ### 2.1 Chrome / Edge / Brave / Opera
 
-1. حمّل ملف متصفحك (مثال: `copytabs-chrome-v{{VERSION}}.zip`) وفك الضغط.
-2. افتح `chrome://extensions` (أو ما يقابلها) وفعّل **Developer mode**.
-3. اختر **Load unpacked** وحدّد المجلد المفكوك، ثم ثبّت الأيقونة 📌.
+1. Download your browser's archive (for example `copytabs-chrome-v{{VERSION}}.zip`) and unzip it.
+2. Open `chrome://extensions` (or the equivalent page) and enable **Developer mode**.
+3. Choose **Load unpacked**, select the unzipped folder, then pin the toolbar icon.
 
 ### 2.2 Firefox
 
-1. حمّل ملف `copytabs-firefox-v{{VERSION}}.zip` وفك الضغط.
-2. افتح `about:debugging` ← ‏This Firefox ← ‏Load Temporary Add-on ← اختر `manifest.json`.
-3. النسخة الموقّعة دائمًا من صفحة الإضافة على AMO (قريبًا).
+1. Download `copytabs-firefox-v{{VERSION}}.zip` and unzip it.
+2. Open `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
+3. The signed build is always available on the AMO add-on page (coming soon).
 
 ---
 
-<h2 align="center">3. المتطلبات</h2>
+<h2 align="center">3. Requirements</h2>
 
 <div align="center">
 
-| المتصفح | الحد الأدنى |
+| Browser | Minimum version |
 |---|---|
 | Chrome / Edge / Brave / Opera | **121+** |
 | Firefox | **121+** |
@@ -67,9 +65,9 @@
 
 ---
 
-<h2 align="center">4. التحقق من سلامة الملفات</h2>
+<h2 align="center">4. Verify file integrity</h2>
 
-<p align="center">قارن بصمة الملف الذي حمّلته مع السطر المقابل في <code>SHA256SUMS.txt</code> — التطابق يعني أن الملف سليم ولم يُتلاعب به.</p>
+<p align="center">Compare the checksum of the file you downloaded with the matching line in <code>SHA256SUMS.txt</code> — a match means the archive is intact and untouched.</p>
 
 <div dir="ltr">
 
@@ -91,12 +89,10 @@ sha256sum -c SHA256SUMS.txt
 
 ---
 
-<h2 align="center">5. السورس والرخصة</h2>
+<h2 align="center">5. Source code and license</h2>
 
-<p align="center">السورس كود الكامل مرفق بالأسفل، والمشروع مرخّص <b>Apache-2.0</b> — حرية الاستخدام والتعديل والمشاركة.</p>
+<p align="center">The full source code is attached below, and the project is licensed under <b>Apache-2.0</b> — free to use, modify, and share.</p>
 
 ---
 
-<p align="center">صُنع بكل لُطف ❤️ <b>Ahmed Yousry</b></p>
-
-</div>
+<p align="center">Built with care by <b>Ahmed Yousry</b></p>

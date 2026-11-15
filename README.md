@@ -1,23 +1,21 @@
-<div dir="rtl">
-
 <p align="center">
   <img src="icons/icon128.png" width="96" alt="CopyTabs" />
 </p>
 
-<h1 align="center">CopyTabs | ناسخ روابط التبويبات بضغطة واحدة</h1>
+<h1 align="center">CopyTabs — One-Click Tab Link Copier</h1>
 
-<p align="center">فاتح 15 تبويبًا للبحث؟ مجمّع شروحات؟ تراجع منافسين؟ بدل النسخ اليدوي رابطًا رابطًا — <b>اضغط زرًا واحدًا</b> واحصل على ملف <code>.txt</code> مرقّم وجاهز للمشاركة، <b>ونسخة فورية في حافظتك</b>.</p>
+<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline.</p>
 
 <p align="center">
   <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-E8710A" alt="Apache 2.0" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-22C55E" alt="PRs welcome" /></a>
   <a href="https://developer.chrome.com/docs/extensions"><img src="https://img.shields.io/badge/Manifest-V3-4285F4" alt="Manifest V3" /></a>
-  <img src="https://img.shields.io/badge/Arabic-RTL-7c3aed" alt="Arabic RTL" />
+  <img src="https://img.shields.io/badge/Arabic_RTL_Interface-7c3aed" alt="Arabic RTL interface" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
-<h3 align="center">حمّل نسخة متصفحك — اضغط على أيقونته</h3>
+<h3 align="center">Download for your browser — click the icon</h3>
 
 <div align="center">
 
@@ -27,20 +25,20 @@
 </div>
 
 <p align="center">
-  <img src="assets/screenshots/popup-light.webp" width="280" alt="الوضع الفاتح" />
+  <img src="assets/screenshots/popup-light.webp" width="280" alt="CopyTabs popup — light theme" />
 </p>
 
 ---
 
-## 1. لماذا CopyTabs؟
+## 1. Why CopyTabs?
 
 <div align="center">
 
-| بدون CopyTabs | مع CopyTabs |
+| Without CopyTabs | With CopyTabs |
 |---|---|
-| نسخ كل رابط يدويًا ولصقه في ملف | ضغطة واحدة تجمع كل الروابط مرقّمة |
-| جلسة بحث كاملة تضيع بإغلاق المتصفح | ملف محفوظ + نسخة في الحافظة + سجل تصديرات |
-| روابط مكررة وصفحات نظام لا تريدها | إزالة المكرر وتخطي صفحات النظام تلقائيًا |
+| Copy every URL by hand and paste it into a file | One click collects all links, already numbered |
+| A research session is lost when the browser closes | A saved file, a clipboard copy, and an export history |
+| Duplicate links and internal pages you never wanted | Duplicates removed and system pages skipped automatically |
 
 </div>
 
@@ -56,93 +54,93 @@
 
 ---
 
-## 2. كيف يعمل؟ (3 خطوات فقط)
+## 2. How it works — three steps
 
-1. **افتح** الإضافة من شريط المتصفح — ستجد كل تبويباتك معروضة أمامك مع عدّاد حي.
-2. **اضغط** «احفظ كل روابطك الآن» — أو راجع المعاينة وحدّد ما تريد بزر لكل رابط.
-3. **شارك** — ملف `.txt` يُحمَّل فورًا، والنص نفسه في حافظتك، ونسخة محفوظة في سجل تصديراتك.
-
----
-
-## 3. تشريح الواجهة — كل جزء بالتفصيل
-
-### 3.1 أزرار التصدير الثلاثة
-
-<p align="center"><img src="assets/screenshots/section-actions.webp" width="400" alt="أزرار التصدير" /></p>
-
-- **«احفظ كل روابطك الآن»** — الزر الرئيسي: يصدّر الروابط المحددة، ويحمّل الملف، وينسخ النص للحافظة في ضغطة واحدة، وتحته سطر حي بعدد الروابط الجاهزة.
-- **«نسخ سريع»** — نسخ للحافظة فقط دون تحميل ملف.
-- **«تحميل TXT»** — تحميل الملف فقط دون نسخ.
-- رسالة حالة تحت الأزرار تؤكد النجاح أو تشرح الخطأ — وتختفي تمامًا عند عدم الحاجة فلا تترك فراغًا.
-
-### 3.2 المعاينة والبحث الحي
-
-<p align="center"><img src="assets/screenshots/section-preview.webp" width="400" alt="المعاينة والبحث" /></p>
-
-- كل رابط في بطاقة مستقلة: العنوان + الرابط + **زر تحديد خاص به** — إلغاء التحديد يسقطه من التصدير.
-- أيقونة العدسة تتوسع منها خانة البحث بحركة ناعمة، وتُرشّح المعاينة **لحظيًا** بالعنوان أو الرابط.
-- زر **×** متمركز يمسح النص مع بقاء الشريط مفتوحًا؛ والإغلاق الكامل بالعدسة مجددًا أو بزر `Escape`.
-- الروابط تُعرض باتجاه يسار-ليمين حتى لا تنكسر داخل الواجهة العربية.
-
-### 3.3 خصّص التصدير
-
-<p align="center"><img src="assets/screenshots/section-customize.webp" width="360" alt="خيارات التصدير" /></p>
-
-- **3 قوائم مخصصة** بتصميم خاص (ليست قوائم الويندوز): النطاق، والترتيب، وتنسيق الترقيم — بدعم كامل للوحة المفاتيح وقارئ الشاشة.
-- **مفاتيح تشغيل/إيقاف**: تضمين العناوين، إزالة المكرر، تخطي صفحات النظام، النسخ التلقائي، حفظ السجل.
-- **حقل اسم الملف** (حتى 60 حرفًا، مع تنظيف تلقائي للرموز غير الصالحة وختم تاريخ تلقائي).
-- زر **إعادة الضبط** (السهم الدائري أعلى القسم) يعيد كل الخيارات للوضع الافتراضي.
-- القائمة الكاملة بكل خيار في قسم 4 بالأسفل.
-
-### 3.4 تصديراتك الأخيرة
-
-<p align="center"><img src="assets/screenshots/section-history.webp" width="400" alt="سجل التصديرات" /></p>
-
-- آخر **10 تصديرات**: التاريخ والوقت + عدد الروابط لكل عملية.
-- زر **تحميل** لكل نسخة محفوظة + زر **مسح السجل** (السلة) أعلى القسم.
-- حالة فارغة لطيفة قبل أول تصدير — وأول عملية تظهر هنا فور إتمامها.
-
-### 3.5 أسود حقيقي مريح للعين
-
-<p align="center"><img src="assets/screenshots/popup-dark.webp" width="280" alt="الوضع الداكن" /></p>
-
-وضع داكن بخلفية سوداء فعلية وتباين محسوب، يُبدَّل بأيقونة شمس/قمر في الهيدر ويُحفَظ تلقائيًا.
-
-### 3.6 قوائم بتصميم خاص
-
-<p align="center"><img src="assets/screenshots/popup-menu.webp" width="280" alt="قائمة مخصصة مفتوحة" /></p>
-
-لا قوائم ويندوز افتراضية: النطاق والترتيب والترقيم نوافذ عائمة أنيقة بعلامة تحديد ✓ ودعم كامل للوحة المفاتيح وقارئ الشاشة.
-
-### 3.7 ادعم استمرار التطوير
-
-<p align="center"><img src="assets/screenshots/section-donate.webp" width="400" alt="قسم الدعم" /></p>
-
-- قسم اختياري لمن يريد دعم التطوير — CopyTabs مجاني ومفتوح المصدر.
-- زر مميز لـ InstaPay وخيار PayPal كبديل — الروابط تفتح في تبويب جديد، ولا تُرسل الإضافة أي بيانات.
+1. **Open** CopyTabs from the browser toolbar: every open tab is listed with a live counter.
+2. **Click** the primary action (or review the preview and pick individual links with the per-link toggle).
+3. **Share** — the `.txt` file downloads instantly, the same text lands in your clipboard, and a copy is kept in your export history.
 
 ---
 
-## 4. عشر مميزات تتحكم في كل التفاصيل
+## 3. Interface tour
 
-1. **نطاق النسخ** — النافذة الحالية فقط، أو كل النوافذ.
-2. **تضمين عنوان الصفحة** — سطر بصيغة `1. العنوان — الرابط`.
-3. **إزالة الروابط المكررة** — تلقائيًا قبل التصدير.
-4. **تخطي صفحات النظام** — يتجاهل `chrome://` وما شابهها.
-5. **الترتيب** — الأصلي كما في المتصفح، أو أبجدي، أو حسب الدومين.
-6. **تنسيق الترقيم** — `1.` أو `1)` أو `-`.
-7. **اسم ملف مخصص** — مع ختم تاريخ تلقائي `tabs-links-YYYY-MM-DD.txt`.
-8. **نسخ تلقائي للحافظة** — بعد كل تصدير.
-9. **الوضع الداكن** — زر شمس/قمر في الهيدر يُحفظ تلقائيًا.
-10. **سجل آخر 10 تصديرات** — مع إعادة تحميل أي نسخة ومسح السجل.
+### 3.1 The three export actions
 
-وفوقها: بحث حي، وتحديد فردي لكل رابط، وعدّاد وشارة بعدد الروابط، وقائمة سياق (كليك يمين)، واختصاران للوحة المفاتيح، وزر إعادة ضبط.
+<p align="center"><img src="assets/screenshots/section-actions.webp" width="400" alt="Export actions" /></p>
+
+- **Save all links now** (`احفظ كل روابطك الآن`) — the primary action: exports the selected links, downloads the file, and copies the text to the clipboard in one click, with a live count of ready links underneath.
+- **Quick copy** (`نسخ سريع`) — clipboard only, no file download.
+- **Download TXT** (`تحميل TXT`) — file only, no clipboard write.
+- A status line under the buttons confirms success or explains the error — and disappears completely when there is nothing to report, so it never leaves an empty gap.
+
+### 3.2 Live preview and search
+
+<p align="center"><img src="assets/screenshots/section-preview.webp" width="400" alt="Preview and search" /></p>
+
+- Every link gets its own card: title, URL, and a **dedicated toggle** — unchecking a link removes it from the export.
+- The magnifying-glass icon expands into a search field with a smooth transition, filtering the preview **as you type** by title or URL.
+- The centered **×** clears the text while the bar stays open; close it with the icon again or with `Escape`.
+- URLs are rendered left-to-right so they never break inside the interface.
+
+### 3.3 Customize the export
+
+<p align="center"><img src="assets/screenshots/section-customize.webp" width="360" alt="Export options" /></p>
+
+- **Three custom dropdowns** with their own design (not native OS menus): scope, sort order, and numbering format — all keyboard- and screen-reader-accessible.
+- **Switches**: include page titles, remove duplicates, skip system pages, auto-copy to clipboard, keep export history.
+- **File name field** (up to 60 characters, with automatic sanitizing of invalid characters and an automatic date stamp).
+- The **reset button** (circular arrow at the top of the section) restores every option to its default.
+- The full list of options is in section 4 below.
+
+### 3.4 Your recent exports
+
+<p align="center"><img src="assets/screenshots/section-history.webp" width="400" alt="Export history" /></p>
+
+- The last **10 exports**: date, time, and link count for each run.
+- A **download** button for every saved copy, plus a **clear history** button (trash icon) at the top of the section.
+- A friendly empty state before the first export — your first run shows up here the moment it finishes.
+
+### 3.5 True black dark theme
+
+<p align="center"><img src="assets/screenshots/popup-dark.webp" width="280" alt="Dark theme" /></p>
+
+A real black background (`#000000`) with tuned contrast, toggled by the sun/moon icon in the header and remembered automatically.
+
+### 3.6 Dropdowns with their own design
+
+<p align="center"><img src="assets/screenshots/popup-menu.webp" width="280" alt="Custom dropdown open" /></p>
+
+No default Windows menus: scope, sort order, and numbering are clean floating panels with a check mark, full keyboard support, and screen-reader labels.
+
+### 3.7 Support continued development
+
+<p align="center"><img src="assets/screenshots/section-donate.webp" width="400" alt="Support section" /></p>
+
+- An optional section for anyone who wants to back the project — CopyTabs stays free and open source.
+- A highlighted InstaPay button with PayPal as an alternative — both open in a new tab, and the extension sends no data.
 
 ---
 
-## 5. مثال ملف التصدير
+## 4. Ten controls that shape every export
 
-بدون عناوين:
+1. **Scope** — current window only, or every window.
+2. **Include page titles** — lines formatted as `1. Title — URL`.
+3. **Remove duplicate links** — applied automatically before export.
+4. **Skip system pages** — ignores `chrome://` and similar URLs.
+5. **Sort order** — original browser order, alphabetical, or by domain.
+6. **Numbering format** — `1.`, `1)`, or `-`.
+7. **Custom file name** — with an automatic date stamp: `tabs-links-YYYY-MM-DD.txt`.
+8. **Auto-copy to clipboard** — after every export.
+9. **Dark theme** — the sun/moon toggle in the header, remembered automatically.
+10. **Export history** — the last 10 runs, with re-download and a clear button.
+
+On top of that: live search, an individual toggle per link, a counter badge for the number of links, a context menu, two keyboard shortcuts, and a reset button.
+
+---
+
+## 5. Export file examples
+
+Without titles:
 
 <div dir="ltr">
 
@@ -154,7 +152,7 @@
 
 </div>
 
-مع تفعيل «تضمين عنوان الصفحة»:
+With **include page titles** enabled:
 
 <div dir="ltr">
 
@@ -167,74 +165,74 @@
 
 ---
 
-## 6. التثبيت (دقيقة واحدة)
+## 6. Installation — one minute
 
-من صفحة [Releases](https://github.com/el9a7rawi/CopyTabs/releases) حمّل النسخة الأخيرة — **ملف باسم كل متصفح**: Chrome وEdge وBrave وOpera وFirefox (ملفات Chromium الأربعة متطابقة المحتوى، وملف Firefox يحمل إعدادات Gecko).
+Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and download the latest build — **one archive per browser**: Chrome, Edge, Brave, Opera, and Firefox (the four Chromium archives are identical, while the Firefox archive carries the Gecko settings).
 
-**Chrome / Edge / Brave / Opera** (ملف `copytabs-<المتصفح>-vX.Y.Z.zip` — مثال: `copytabs-edge-v1.2.1.zip`):
+**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-vX.Y.Z.zip` — for example `copytabs-edge-v1.2.1.zip`):
 
-1. فك ضغط الملف.
-2. افتح `chrome://extensions` (أو ما يقابلها) وفعّل **Developer mode**.
-3. اختر **Load unpacked** وحدّد المجلد المفكوك، ثم ثبّت الأيقونة 📌.
+1. Unzip the archive.
+2. Open `chrome://extensions` (or the equivalent page) and enable **Developer mode**.
+3. Choose **Load unpacked**, select the unzipped folder, then pin the toolbar icon.
 
-**Firefox** (ملف `copytabs-firefox-vX.Y.Z.zip`):
+**Firefox** (file `copytabs-firefox-vX.Y.Z.zip`):
 
-1. فك ضغط الملف.
-2. افتح `about:debugging` ← ‏This Firefox ← ‏Load Temporary Add-on ← اختر `manifest.json`.
-3. النسخة الموقّعة دائمًا من صفحة الإضافة على AMO (قريبًا).
+1. Unzip the archive.
+2. Open `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
+3. The signed build is always available on the AMO add-on page (coming soon).
 
-**للمطورين من السورس:** `git clone` ثم Load unpacked للمجلد مباشرة لمتصفحات Chromium؛ ولفايرفوكس استخدم نسخة البناء (`python tools/build.py`) — المصدر بدون `background.scripts` (تنظيف لكروم).
+**For developers working from source:** `git clone` the repository, then load the folder directly as an unpacked extension for Chromium browsers; for Firefox use the build output (`python tools/build.py`) — the source manifest ships without `background.scripts` (required for Chrome).
 
-> لا build ولا اعتماديات — أي تعديل على الكود يلزمه **Reload** من صفحة الإضافات فقط. المتطلبات: Chrome / Edge / Brave / Opera / Firefox بإصدار 121+.
+> No build step, no dependencies — every code change needs only a **Reload** from the extensions page. Requirements: Chrome / Edge / Brave / Opera / Firefox 121 or newer.
 
 ---
 
-## 7. خصوصيتك أولًا
+## 7. Privacy comes first
 
 <div align="center">
 
-| المبدأ | التطبيق |
+| Principle | How it is applied |
 |---|---|
-| يعمل أوفلاين بالكامل | صفر طلبات شبكة |
-| أقل صلاحيات ممكنة | `tabs` و`storage` و`contextMenus` و`downloads` فقط |
-| بياناتك على جهازك | الإعدادات والسجل في `storage.local` — لا يُرسَل أي رابط لأي سيرفر |
+| Works fully offline | Zero network requests |
+| Least privilege | Only `tabs`, `storage`, `contextMenus`, and `downloads` |
+| Your data stays on your device | Settings and history live in `storage.local` — no link is ever sent to a server |
 
 </div>
 
 ---
 
-## 8. أسئلة شائعة
+## 8. Frequently asked questions
 
-**8.1 هل يعمل بدون إنترنت؟**
-نعم بالكامل؛ فقط خط Cairo يُحمَّل من جوجل وله بديل تلقائي عند الانقطاع.
+**8.1 Does it work without an internet connection?**
+Yes, entirely; the only remote resource is the Cairo font from Google Fonts, and the extension falls back to a local font automatically when it is unreachable.
 
-**8.2 هل تُجمَع بياناتي؟**
-لا — لا يوجد أي كود شبكة في الإضافة، وراجع الكود بنفسك.
+**8.2 Is any of my data collected?**
+No. The extension contains no networking code at all — and you can verify that yourself in the source.
 
-**8.3 أريد صيغة ترقيم مختلفة؟**
-من «خصّص التصدير ← تنسيق الترقيم»: `1.` أو `1)` أو `-`.
+**8.3 How do I change the numbering format?**
+Open *Customize the export → Numbering format*: `1.`, `1)`, or `-`.
 
-**8.4 التصدير لا يشمل تبويبًا معينًا؟**
-تأكد أنه محدد في المعاينة، وأنه ليس صفحة نظام مستثناة، وأنه ليس مكررًا محذوفًا.
+**8.4 Why is a tab missing from my export?**
+Check that it is still selected in the preview, that it is not a system page you chose to skip, and that it was not removed as a duplicate.
 
 ---
 
-## 9. للمطورين
+## 9. For developers
 
 <div dir="ltr">
 
 ```text
-├── manifest.json      ← إعلان MV3 مصدري واحد (البناء يولّد نسخة كل متصفح)
-├── popup.html/css/js  ← الواجهة (Cairo + Tajawal)
-├── background.js      ← خلفية موحّدة: service_worker، والبناء يضيفها كـ scripts لفايرفوكس
+├── manifest.json      ← single source MV3 manifest (the build emits one variant per browser)
+├── popup.html/css/js  ← the interface (Cairo + Tajawal, Arabic RTL)
+├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← سكرينشوتات README + أيقونات المتصفحات
-└── tools/build.py     ← بناء نسخ المتاجر + SHA256 (يُستخدم في CI والإصدارات)
+├── assets/            ← README screenshots + browser icons
+└── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ```
 
 </div>
 
-واجهة عربية RTL كاملة، `textContent` فقط لعرض البيانات (لا `innerHTML`)، والإعدادات في `chrome.storage.local` — والتحقق السريع:
+A fully Arabic RTL interface, `textContent` only when rendering data (never `innerHTML`), and settings stored in `chrome.storage.local`. Quick verification:
 
 <div dir="ltr">
 
@@ -246,13 +244,12 @@ python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 
 ---
 
-## 10. الرخصة والمساهمة
+## 10. License and contributing
 
-المشروع مفتوح المصدر ومجاني للجميع برخصة **Apache-2.0** — استخدمه وعدّله وشاركه بحرية، التفاصيل في ملف [LICENSE](LICENSE).
+The project is open source and free for everyone under the **Apache-2.0** license — use it, modify it, and share it freely; the full text is in [LICENSE](LICENSE).
 
-المساهمات مرحب بها: افتح Issue للبلاغات والاقتراحات، أو Pull Request مباشرة — وفحص CI التلقائي سيتحقق من سلامة الـ manifest وروابط الصور قبل الدمج.
+Contributions are welcome: open an issue for bug reports and ideas, or send a pull request directly — CI validates the manifest and every image link before a change is merged.
 
 ---
 
-<p align="center">صُنع بكل لُطف ❤️ <b>Ahmed Yousry</b></p>
-</div>
+<p align="center">Built with care by <b>Ahmed Yousry</b> · <a href="LICENSE">Apache-2.0</a></p>
