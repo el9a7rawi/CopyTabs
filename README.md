@@ -1,17 +1,28 @@
 <p align="center">
+  <a href="README.md"><b>English</b></a> ·
+  <a href="README.es.md">Español</a> ·
+  <a href="README.fr.md">Français</a> ·
+  <a href="README.de.md">Deutsch</a> ·
+  <a href="README.pt-BR.md">Português (Brasil)</a> ·
+  <a href="README.ru.md">Русский</a> ·
+  <a href="README.ar.md">العربية</a> ·
+  <a href="README.zh-CN.md">中文（简体）</a>
+</p>
+
+<p align="center">
   <img src="icons/icon128.png" width="96" alt="CopyTabs" />
 </p>
 
 <h1 align="center">CopyTabs — One-Click Tab Link Copier</h1>
 
-<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline.</p>
+<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline. The interface is English by default, ships with eight languages, and mirrors itself completely for Arabic RTL.</p>
 
 <p align="center">
   <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-E8710A" alt="Apache 2.0" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-22C55E" alt="PRs welcome" /></a>
   <a href="https://developer.chrome.com/docs/extensions"><img src="https://img.shields.io/badge/Manifest-V3-4285F4" alt="Manifest V3" /></a>
-  <img src="https://img.shields.io/badge/Arabic_RTL_Interface-7c3aed" alt="Arabic RTL interface" />
+  <img src="https://img.shields.io/badge/8_Languages-7c3aed" alt="8 languages" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
@@ -25,7 +36,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/screenshots/popup-light.webp" width="280" alt="CopyTabs popup — light theme" />
+  <img src="assets/screenshots/en/popup-light.webp" width="280" alt="CopyTabs popup — light theme" />
 </p>
 
 ---
@@ -56,7 +67,7 @@
 
 ## 2. How it works — three steps
 
-1. **Open** CopyTabs from the browser toolbar: every open tab is listed with a live counter.
+1. **Open** CopyTabs from the browser toolbar: every open tab is listed with a live count in the action hint.
 2. **Click** the primary action (or review the preview and pick individual links with the per-link toggle).
 3. **Share** — the `.txt` file downloads instantly, the same text lands in your clipboard, and a copy is kept in your export history.
 
@@ -66,16 +77,16 @@
 
 ### 3.1 The three export actions
 
-<p align="center"><img src="assets/screenshots/section-actions.webp" width="400" alt="Export actions" /></p>
+<p align="center"><img src="assets/screenshots/en/section-actions.webp" width="400" alt="Export actions" /></p>
 
-- **Save all links now** (`احفظ كل روابطك الآن`) — the primary action: exports the selected links, downloads the file, and copies the text to the clipboard in one click, with a live count of ready links underneath.
-- **Quick copy** (`نسخ سريع`) — clipboard only, no file download.
-- **Download TXT** (`تحميل TXT`) — file only, no clipboard write.
+- **Save all links now** — the primary action: exports the selected links, downloads the file, and copies the text to the clipboard in one click, with a live count of ready links underneath.
+- **Quick copy** — clipboard only, no file download.
+- **Download TXT** — file only, no clipboard write.
 - A status line under the buttons confirms success or explains the error — and disappears completely when there is nothing to report, so it never leaves an empty gap.
 
 ### 3.2 Live preview and search
 
-<p align="center"><img src="assets/screenshots/section-preview.webp" width="400" alt="Preview and search" /></p>
+<p align="center"><img src="assets/screenshots/en/section-preview.webp" width="400" alt="Preview and search" /></p>
 
 - Every link gets its own card: title, URL, and a **dedicated toggle** — unchecking a link removes it from the export.
 - The magnifying-glass icon expands into a search field with a smooth transition, filtering the preview **as you type** by title or URL.
@@ -84,17 +95,17 @@
 
 ### 3.3 Customize the export
 
-<p align="center"><img src="assets/screenshots/section-customize.webp" width="360" alt="Export options" /></p>
+<p align="center"><img src="assets/screenshots/en/section-customize.webp" width="360" alt="Export options" /></p>
 
 - **Three custom dropdowns** with their own design (not native OS menus): scope, sort order, and numbering format — all keyboard- and screen-reader-accessible.
 - **Switches**: include page titles, remove duplicates, skip system pages, auto-copy to clipboard, keep export history.
 - **File name field** (up to 60 characters, with automatic sanitizing of invalid characters and an automatic date stamp).
 - The **reset button** (circular arrow at the top of the section) restores every option to its default.
-- The full list of options is in section 4 below.
+- The full list of options is in section 5 below.
 
 ### 3.4 Your recent exports
 
-<p align="center"><img src="assets/screenshots/section-history.webp" width="400" alt="Export history" /></p>
+<p align="center"><img src="assets/screenshots/en/section-history.webp" width="400" alt="Export history" /></p>
 
 - The last **10 exports**: date, time, and link count for each run.
 - A **download** button for every saved copy, plus a **clear history** button (trash icon) at the top of the section.
@@ -102,31 +113,45 @@
 
 ### 3.5 True black dark theme
 
-<p align="center"><img src="assets/screenshots/popup-dark.webp" width="280" alt="Dark theme" /></p>
+<p align="center"><img src="assets/screenshots/en/popup-dark.webp" width="280" alt="Dark theme" /></p>
 
 A real black background (`#000000`) with tuned contrast, toggled by the sun/moon icon in the header and remembered automatically.
 
 ### 3.6 Dropdowns with their own design
 
-<p align="center"><img src="assets/screenshots/popup-menu.webp" width="280" alt="Custom dropdown open" /></p>
+<p align="center"><img src="assets/screenshots/en/popup-menu.webp" width="280" alt="Custom dropdown open" /></p>
 
 No default Windows menus: scope, sort order, and numbering are clean floating panels with a check mark, full keyboard support, and screen-reader labels.
 
 ### 3.7 Support continued development
 
-<p align="center"><img src="assets/screenshots/section-donate.webp" width="400" alt="Support section" /></p>
+<p align="center"><img src="assets/screenshots/en/section-donate.webp" width="400" alt="Support section" /></p>
 
 - An optional section for anyone who wants to back the project — CopyTabs stays free and open source.
 - A highlighted InstaPay button with PayPal as an alternative — both open in a new tab, and the extension sends no data.
 
 ---
 
-## 4. Ten controls that shape every export
+## 4. Eight languages — English first, RTL done right
+
+<p align="center"><img src="assets/screenshots/en/popup-language.webp" width="280" alt="Language menu open" /></p>
+
+- **English is the default.** On the very first run CopyTabs follows the browser language when it is one of the eight, then remembers your explicit choice forever.
+- **Switch instantly** from the globe icon in the header — no reload, no restart. The choice is stored in the same settings object as every other option.
+- **Eight complete dictionaries**: English, Español, Français, Deutsch, Português (Brasil), Русский, العربية, and 中文（简体）. Every string — buttons, options, status messages, history — is translated; nothing falls back to English mid-screen.
+- **Real RTL, not a mirrored hack.** Choosing العربية flips the document direction logically: the header, search field, dropdowns, icons, and switches all move to their correct sides, and URLs stay left-to-right inside their cards.
+- **Real plurals.** Counts are formatted with `Intl.PluralRules`, so Arabic gets its full zero/one/two/few/many/other set, Russian its four forms, and Chinese its single form — no "1 links" anywhere.
+- **Fully offline.** Every dictionary ships inside the extension; switching languages makes zero network requests.
+- **Each language has its own README** with screenshots of that language — use the language picker at the top of any page.
+
+---
+
+## 5. Ten controls that shape every export
 
 1. **Scope** — current window only, or every window.
 2. **Include page titles** — lines formatted as `1. Title — URL`.
 3. **Remove duplicate links** — applied automatically before export.
-4. **Skip system pages** — ignores `chrome://` and similar URLs.
+4. **Skip system pages** — ignores the current browser's internal pages (`chrome://`, `edge://`, `about:`, and similar).
 5. **Sort order** — original browser order, alphabetical, or by domain.
 6. **Numbering format** — `1.`, `1)`, or `-`.
 7. **Custom file name** — with an automatic date stamp: `tabs-links-YYYY-MM-DD.txt`.
@@ -134,11 +159,11 @@ No default Windows menus: scope, sort order, and numbering are clean floating pa
 9. **Dark theme** — the sun/moon toggle in the header, remembered automatically.
 10. **Export history** — the last 10 runs, with re-download and a clear button.
 
-On top of that: live search, an individual toggle per link, a counter badge for the number of links, a context menu, two keyboard shortcuts, and a reset button.
+On top of that: live search, an individual toggle per link, a toolbar badge for the ready count, a context menu, two keyboard shortcuts, and a reset button.
 
 ---
 
-## 5. Export file examples
+## 6. Export file examples
 
 Without titles:
 
@@ -165,11 +190,11 @@ With **include page titles** enabled:
 
 ---
 
-## 6. Installation — one minute
+## 7. Installation — one minute
 
 Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and download the latest build — **one archive per browser**: Chrome, Edge, Brave, Opera, and Firefox (the four Chromium archives are identical, while the Firefox archive carries the Gecko settings).
 
-**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-vX.Y.Z.zip` — for example `copytabs-edge-v1.2.1.zip`):
+**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-vX.Y.Z.zip` — for example `copytabs-edge-v1.3.0.zip`):
 
 1. Unzip the archive.
 2. Open `chrome://extensions` (or the equivalent page) and enable **Developer mode**.
@@ -187,7 +212,7 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 
 ---
 
-## 7. Privacy comes first
+## 8. Privacy comes first
 
 <div align="center">
 
@@ -201,50 +226,58 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 
 ---
 
-## 8. Frequently asked questions
+## 9. Frequently asked questions
 
-**8.1 Does it work without an internet connection?**
-Yes, entirely; the only remote resource is the Cairo font from Google Fonts, and the extension falls back to a local font automatically when it is unreachable.
+**9.1 Does it work without an internet connection?**
+Yes, entirely; the only remote resources are the Inter and Cairo font stylesheets from Google Fonts, and the extension falls back to local fonts automatically when they are unreachable. Every language dictionary is bundled locally.
 
-**8.2 Is any of my data collected?**
+**9.2 Is any of my data collected?**
 No. The extension contains no networking code at all — and you can verify that yourself in the source.
 
-**8.3 How do I change the numbering format?**
+**9.3 How do I change the numbering format?**
 Open *Customize the export → Numbering format*: `1.`, `1)`, or `-`.
 
-**8.4 Why is a tab missing from my export?**
+**9.4 Why is a tab missing from my export?**
 Check that it is still selected in the preview, that it is not a system page you chose to skip, and that it was not removed as a duplicate.
+
+**9.5 How do I change the interface language?**
+Click the globe icon in the header and pick a language. The default is English; the first run follows your browser language when it is supported, and your choice is remembered after that.
 
 ---
 
-## 9. For developers
+## 10. For developers
 
 <div dir="ltr">
 
 ```text
 ├── manifest.json      ← single source MV3 manifest (the build emits one variant per browser)
-├── popup.html/css/js  ← the interface (Cairo + Tajawal, Arabic RTL)
+├── popup.html/css/js  ← the interface (Inter first, Cairo/Tajawal for Arabic, logical RTL)
+├── i18n.js            ← locale loader, plural rules, direction switching
+├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
 ├── assets/            ← README screenshots + browser icons
-└── tools/build.py     ← store builds + SHA256 (used by CI and releases)
+├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
+├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+└── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ```
 
 </div>
 
-A fully Arabic RTL interface, `textContent` only when rendering data (never `innerHTML`), and settings stored in `chrome.storage.local`. Quick verification:
+English by default with eight bundled locales and a logical RTL layout, `textContent` only when rendering data (never `innerHTML`), and settings stored in `chrome.storage.local`. Quick verification:
 
 <div dir="ltr">
 
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
+python3 tools/check_locales.py
 ```
 
 </div>
 
 ---
 
-## 10. License and contributing
+## 11. License and contributing
 
 The project is open source and free for everyone under the **Apache-2.0** license — use it, modify it, and share it freely; the full text is in [LICENSE](LICENSE).
 

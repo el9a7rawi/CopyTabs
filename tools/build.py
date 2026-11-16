@@ -26,6 +26,8 @@ import sys
 import zipfile
 from pathlib import Path
 
+from check_locales import validate as validate_locales
+
 ROOT = Path(__file__).resolve().parent.parent
 
 # Files shipped inside every store ZIP (lean + Apache-2.0 compliant).
@@ -34,6 +36,8 @@ PACKAGE_FILES = [
     "popup.html",
     "popup.css",
     "popup.js",
+    "i18n.js",
+    "browser.js",
     "background.js",
     "LICENSE",
     "icons/icon16.png",
@@ -57,6 +61,14 @@ CHROMIUM_BROWSERS = ["chrome", "edge", "brave", "opera"]
 def fail(msg):
     print(f"BUILD FAILED: {msg}", file=sys.stderr)
     sys.exit(1)
+
+
+def locale_files():
+    """Every shipped locale dictionary, discovered by glob so a new language needs no builder edit."""
+    return sorted(
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "locales").glob("*.json")
+    )
 
 
 def validate_manifest():
@@ -83,6 +95,13 @@ def validate_manifest():
     for rel in PACKAGE_FILES:
         if not (ROOT / rel).is_file():
             fail(f"packaged file is missing: {rel}")
+    locales = locale_files()
+    if "locales/en.json" not in locales:
+        fail("locales/en.json is required: it is the fallback dictionary")
+    locale_errors = validate_locales(ROOT)
+    if locale_errors:
+        fail("; ".join(locale_errors))
+    print(f"locales OK ({len(locales)})")
     # Guard: every emitted manifest variant must stay valid for its browser.
     for browser in BROWSERS:
         bg = manifest_for(browser, manifest)["background"]
@@ -111,7 +130,7 @@ def build_zip(out_dir, browser, base_manifest, version):
         manifest_for(browser, base_manifest), indent=2, ensure_ascii=False
     ).encode("utf-8")
     with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-        for rel in PACKAGE_FILES:
+        for rel in PACKAGE_FILES + locale_files():
             if rel == "manifest.json":
                 zf.writestr(rel, manifest_bytes)
             else:

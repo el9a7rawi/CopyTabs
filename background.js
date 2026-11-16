@@ -1,5 +1,8 @@
 // background.js — خلفية الإضافة (مستمعون top-level فقط): إعدادات افتراضية، قائمة سياق، شارة العدد، تصدير سريع.
 
+import { loadLocale, matchLocale, t } from './i18n.js';
+import { SYSTEM_PREFIXES } from './browser.js';
+
 const DEFAULTS = {
   scope: 'current',
   includeTitles: false,
@@ -10,9 +13,9 @@ const DEFAULTS = {
   fileName: 'tabs-links',
   autoCopy: true,
   darkMode: false,
-  saveHistory: true
+  saveHistory: true,
+  lang: ''
 };
-const SYSTEM_PREFIXES = ['chrome://', 'edge://', 'about:', 'chrome-extension://', 'view-source:'];
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
@@ -32,15 +35,26 @@ chrome.runtime.onStartup.addListener(async () => {
 
 function setupContextMenu() {
   try {
-    chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.removeAll(async () => {
+      const { ct_settings = DEFAULTS } = await chrome.storage.local.get(['ct_settings']);
+      const lang = ct_settings.lang || matchLocale(chrome.i18n.getUILanguage()) || 'en';
+      await loadLocale(lang);
       chrome.contextMenus.create({
         id: 'ct-export',
-        title: 'نسخ روابط التبويبات (TXT مرقّم)',
+        title: t('contextMenuTitle'),
         contexts: ['action']
       });
     });
   } catch { /* بيئة غير داعمة */ }
 }
+
+// تغيير اللغة من الـ popup يعيد بناء قائمة السياق بنفس اللغة
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== 'local' || !changes.ct_settings) return;
+  const before = changes.ct_settings.oldValue?.lang;
+  const after = changes.ct_settings.newValue?.lang;
+  if (before !== after) setupContextMenu();
+});
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === 'ct-export') await quickExport();
