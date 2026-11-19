@@ -19,6 +19,9 @@
   <sub><b>Languages:</b> <a href="README.md"><b>English</b></a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md">Deutsch</a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md">Русский</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文（简体）</a></sub>
 </p>
 
+<p align="center">
+  <img src="assets/brand/cover-en.webp" width="100%" alt="CopyTabs — One-Click Tab Link Copier" />
+</p>
 
 <h3 align="center">Download for your browser — click the icon</h3>
 
