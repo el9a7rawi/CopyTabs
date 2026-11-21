@@ -103,6 +103,8 @@ setTimeout(() => {
   m.search_20_ms = Math.round(performance.now() - t0);
   m.preview_nodes = document.querySelectorAll('#previewList li').length;
   m.nodes_reused = document.querySelector('#previewList li') === firstLi;
+  const hiddenRows = [...document.querySelectorAll('#previewList li')].filter((li) => li.hidden);
+  m.hidden_row_display = hiddenRows.length ? getComputedStyle(hiddenRows[0]).display : null;
   m.elapsed_ms = Math.round(performance.now() - (m.started || 0));
   const pre = document.createElement('pre');
   pre.id = 'bench-metrics';
@@ -149,7 +151,8 @@ def main():
     parser.add_argument("--tabs", type=int, default=100)
     args = parser.parse_args()
 
-    with tempfile.TemporaryDirectory(prefix="copytabs-bench-") as tmp_dir:
+    # Chrome يحتفظ ببعض ملفات البروفايل لحظة الخروج على Windows — تجاهل خطأ الحذف
+    with tempfile.TemporaryDirectory(prefix="copytabs-bench-", ignore_cleanup_errors=True) as tmp_dir:
         tmp = Path(tmp_dir)
         build_site(tmp, args.tabs)
         with socket.socket() as sock:
@@ -176,6 +179,13 @@ def main():
             sys.exit("bench: no metrics captured (popup failed to run)")
         payload = match.group(1).replace("&quot;", '"').replace("&amp;", "&")
         data = json.loads(payload)
+        if data.get("errors"):
+            print("BENCH FAILED: page errors: " + str(data["errors"]), file=sys.stderr)
+            sys.exit(1)
+        budget = args.tabs * 6  # ~5 nodes per row + chrome overhead; old code used ~32/tab
+        if data.get("dom_nodes_created", 0) > budget:
+            print(f"BENCH FAILED: {data['dom_nodes_created']} DOM nodes exceed {budget}", file=sys.stderr)
+            sys.exit(1)
         print(json.dumps(data, ensure_ascii=False, sort_keys=True))
 
 

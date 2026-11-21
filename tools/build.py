@@ -151,7 +151,13 @@ def write_checksums(out_dir, artifacts):
 
 
 def main():
-    out_dir = Path(sys.argv[sys.argv.index("--out") + 1]) if "--out" in sys.argv else ROOT / "dist"
+    if "--out" in sys.argv:
+        index = sys.argv.index("--out")
+        if index + 1 >= len(sys.argv):
+            fail("--out requires a directory")
+        out_dir = Path(sys.argv[index + 1])
+    else:
+        out_dir = ROOT / "dist"
     out_dir.mkdir(parents=True, exist_ok=True)
     base_manifest, version = validate_manifest()
     artifacts = [build_zip(out_dir, browser, base_manifest, version) for browser in BROWSERS]

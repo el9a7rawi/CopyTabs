@@ -20,10 +20,7 @@ CATEGORY_SET = {"zero", "one", "two", "few", "many", "other"}
 PLURAL_CATEGORIES = {
     "ar": ["zero", "one", "two", "few", "many", "other"],
     "ru": ["one", "few", "many", "other"],
-    "pl": ["one", "few", "many", "other"],
     "zh-CN": ["other"],
-    "ja": ["other"],
-    "ko": ["other"],
 }
 DEFAULT_CATEGORIES = ["one", "other"]
 

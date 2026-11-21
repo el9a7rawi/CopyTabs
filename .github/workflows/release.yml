@@ -1,6 +1,6 @@
 name: Release
 
-# Any tag like v1.0.0 triggers: validate -> build ZIPs -> publish GitHub Release.
+# Any tag like v1.0.0 triggers: verify version -> test -> build -> publish.
 on:
   push:
     tags: ["v*"]
@@ -17,6 +17,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify tag matches manifest version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST="$(python -c "import json; print(json.load(open('manifest.json'))['version'])")"
+          if [ "$VERSION" != "$MANIFEST" ]; then
+            echo "tag $VERSION does not match manifest $MANIFEST" >&2
+            exit 1
+          fi
+
+      - name: Run unit tests
+        run: node --test tools/test_*.mjs
 
       - name: Build artifacts
         run: python tools/build.py --out dist
