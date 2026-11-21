@@ -44,6 +44,9 @@ test('render reuses the same li nodes across searches and preserves checked stat
 
   assert.equal(preview.render(tabs), 100);
   assert.equal(shown(list), 100);
+  assert.equal(list.children[0].children[1].children[0].textContent, 'Tab 1');
+  assert.equal(list.children[0].children[1].children[1].textContent, 'https://example.com/0');
+  assert.equal(list.children[0].children[0].checked, true);
   const createdAfterFirst = createdElements;
   const firstLi = list.children[0];
 
@@ -57,4 +60,21 @@ test('render reuses the same li nodes across searches and preserves checked stat
   assert.equal(shown(list), 100);
   assert.equal(createdElements, createdAfterFirst, 'no DOM nodes may be created after the first render');
   assert.equal(empty.hidden, true);
+});
+
+test('closed tabs are removed from the DOM instead of leaving stale visible rows', () => {
+  const list = makeEl('ul');
+  const empty = makeEl('p');
+  const preview = createPreview(list, empty, () => 'select');
+
+  preview.render(tabs.slice(0, 3));
+  assert.equal(shown(list), 3);
+  preview.render(tabs.slice(0, 2));
+  assert.equal(shown(list), 2);
+  assert.equal(list.children.length, 2);
+
+  preview.render([]);
+  assert.equal(shown(list), 0);
+  assert.equal(list.children.length, 0);
+  assert.equal(empty.hidden, false);
 });

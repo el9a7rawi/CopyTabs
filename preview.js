@@ -37,12 +37,18 @@ export function createPreview(listEl, emptyEl, t) {
       : tabs;
     const shown = new Set(visible.map((tab) => tab.id));
 
+    // الصفوف المتبقية من تبويبات أُغلقت تُحذف حتى لا تنمو القائمة بلا حد
+    const current = new Set(tabs.map((tab) => tab.id));
+    for (const [id, row] of rows) {
+      if (!current.has(id)) { row.li.remove(); rows.delete(id); }
+    }
+
     // العقد تُبنى مرة واحدة ثم تُخفى/تُظهر — البحث لا ينشئ عقدًا جديدة
     const frag = document.createDocumentFragment();
     for (const tab of tabs) {
       let row = rows.get(tab.id);
       if (!row) { row = makeRow(tab); rows.set(tab.id, row); }
-      else updateRow(row, tab);
+      updateRow(row, tab);
       row.li.hidden = !shown.has(tab.id);
       frag.appendChild(row.li);
     }

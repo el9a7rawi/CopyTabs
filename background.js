@@ -6,7 +6,9 @@ import { SETTINGS_DEFAULTS, prepareTabs, formatLinks, makeFileName, isBadgeRelev
 const BADGE_DEBOUNCE_MS = 150;
 
 let cachedSettings = null;
+let settingsPromise = null;
 let badgeTimer = null;
+let badgeGeneration = 0;
 let lastBadgeCount = null;
 let badgeColorSet = false;
 
@@ -27,11 +29,16 @@ chrome.runtime.onStartup.addListener(async () => {
 
 // الإعدادات تُقرأ مرة وتُحدَّث من storage.onChanged — لا من كل حدث تبويب
 async function getSettings() {
-  if (!cachedSettings) {
-    const { ct_settings } = await chrome.storage.local.get(['ct_settings']);
-    cachedSettings = { ...SETTINGS_DEFAULTS, ...(ct_settings || {}) };
+  if (cachedSettings) return cachedSettings;
+  if (!settingsPromise) {
+    settingsPromise = chrome.storage.local.get(['ct_settings']).then(({ ct_settings }) => {
+      // storage.onChanged قد يسبق الرد — لا نكتب فوق قيمة أحدث
+      if (!cachedSettings) cachedSettings = { ...SETTINGS_DEFAULTS, ...(ct_settings || {}) };
+      settingsPromise = null;
+      return cachedSettings;
+    });
   }
-  return cachedSettings;
+  return settingsPromise;
 }
 
 function setupContextMenu() {
@@ -78,10 +85,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 chrome.windows.onFocusChanged.addListener(scheduleBadge);
 
 async function refreshBadge() {
+  const generation = ++badgeGeneration;
   try {
     const s = await getSettings();
     const query = s.scope === 'all' ? {} : { windowId: (await chrome.windows.getLastFocused())?.id };
     const tabs = await chrome.tabs.query(query);
+    if (generation !== badgeGeneration) return; // نتيجة قديمة لا تكتب فوق الأحدث
     const n = prepareTabs(tabs, s).length;
     if (n !== lastBadgeCount) {
       await chrome.action.setBadgeText({ text: n > 0 ? String(n) : '' });
