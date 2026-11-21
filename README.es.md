@@ -56,7 +56,7 @@
 
 ## 2. Cómo funciona — tres pasos
 
-1. **Abre** CopyTabs desde la barra de herramientas: todas las pestañas abiertas aparecen con un recuento en vivo en el texto del botón principal.
+1. **Abre** CopyTabs desde la barra de herramientas: todas las pestañas abiertas aparecen con un recuento en vivo debajo del botón principal.
 2. **Haz clic** en la acción principal, o revisa la vista previa y elige enlaces concretos con el interruptor de cada uno.
 3. **Comparte** — el archivo `.txt` se descarga al instante, el mismo texto llega al portapapeles y queda una copia en el historial.
 
@@ -171,7 +171,7 @@ Con **incluir títulos** activado:
 
 Abre la página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) y descarga la última compilación — **un archivo por navegador**: Chrome, Edge, Brave, Opera y Firefox (los cuatro de Chromium son idénticos; el de Firefox incluye la configuración de Gecko).
 
-**Chrome / Edge / Brave / Opera** (archivo `copytabs-<browser>-vX.Y.Z.zip`, por ejemplo `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (archivo `copytabs-<browser>-vX.Y.Z.zip`, por ejemplo `copytabs-edge-v1.3.1.zip`):
 
 1. Descomprime el archivo.
 2. Abre `chrome://extensions` (o la página equivalente) y activa el **modo desarrollador**.
@@ -181,7 +181,7 @@ Abre la página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) y 
 
 1. Descomprime el archivo.
 2. Abre `about:debugging` → This Firefox → Load Temporary Add-on → selecciona `manifest.json`.
-3. La compilación firmada estará siempre en la página de AMO (próximamente).
+3. La compilación firmada llegará pronto a la página de AMO.
 
 **Para desarrolladores desde el código:** haz `git clone` y carga la carpeta como extensión descomprimida en navegadores Chromium; para Firefox usa la salida de `python tools/build.py` — el manifest fuente va sin `background.scripts` (necesario para Chrome).
 
@@ -209,7 +209,7 @@ Abre la página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) y 
 Sí, por completo; el único recurso remoto son las hojas de estilo de las fuentes Inter y Cairo de Google Fonts, y la extensión vuelve a fuentes locales si no están disponibles. Cada diccionario está incluido localmente.
 
 **9.2 ¿Se recogen mis datos?**
-No. La extensión no contiene ningún código de red — puedes comprobarlo tú mismo en el código fuente.
+No. La extensión no hace ninguna petición de red — puedes comprobarlo tú mismo en el código fuente.
 
 **9.3 ¿Cómo cambio el formato de numeración?**
 Abre *Personaliza la exportación → Formato de numeración*: `1.`, `1)` o `-`.
@@ -236,9 +236,10 @@ Haz clic en el globo de la cabecera y elige un idioma. El inglés es el predeter
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@ Inglés por defecto con ocho locales incluidos y diseño RTL lógico, `textConte
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 comparte la lógica pura de pestañas y enlaces entre el popup y el fondo, agrupa las actualizaciones de la insignia y reutiliza las filas de la vista previa; `python tools/bench.py --tabs 100` reproduce la medición.
 
 ---
 

@@ -56,7 +56,7 @@
 
 ## 2. So funktioniert es — drei Schritte
 
-1. **Öffne** CopyTabs in der Browser-Symbolleiste: Jeder offene Tab erscheint mit einer Live-Zahl im Text der Hauptaktion.
+1. **Öffne** CopyTabs in der Browser-Symbolleiste: Jeder offene Tab erscheint mit einer Live-Zahl unter dem Hauptbutton.
 2. **Klicke** auf die Hauptaktion oder prüfe die Vorschau und wähle einzelne Links über ihren eigenen Schalter.
 3. **Teile** — die `.txt`-Datei wird sofort heruntergeladen, derselbe Text landet in der Zwischenablage und eine Kopie bleibt im Verlauf.
 
@@ -171,7 +171,7 @@ Mit **Seitentitel einbeziehen**:
 
 Öffne die [Releases](https://github.com/el9a7rawi/CopyTabs/releases) und lade den neuesten Build herunter — **ein Archiv pro Browser**: Chrome, Edge, Brave, Opera und Firefox (die vier Chromium-Archive sind identisch; das Firefox-Archiv enthält die Gecko-Einstellungen).
 
-**Chrome / Edge / Brave / Opera** (Datei `copytabs-<browser>-vX.Y.Z.zip`, zum Beispiel `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (Datei `copytabs-<browser>-vX.Y.Z.zip`, zum Beispiel `copytabs-edge-v1.3.1.zip`):
 
 1. Archiv entpacken.
 2. `chrome://extensions` (oder die entsprechende Seite) öffnen und den **Entwicklermodus** aktivieren.
@@ -181,7 +181,7 @@ Mit **Seitentitel einbeziehen**:
 
 1. Archiv entpacken.
 2. `about:debugging` → This Firefox → Load Temporary Add-on → `manifest.json` auswählen.
-3. Der signierte Build ist immer auf der AMO-Seite verfügbar (demnächst).
+3. Ein signierter Build folgt bald auf der AMO-Seite.
 
 **Für Entwickler aus dem Quellcode:** Repository mit `git clone` holen, dann den Ordner in Chromium-Browsern als entpackte Erweiterung laden; für Firefox den Build (`python tools/build.py`) nutzen — das Quell-Manifest kommt ohne `background.scripts` (für Chrome nötig).
 
@@ -209,7 +209,7 @@ Mit **Seitentitel einbeziehen**:
 Ja, vollständig; die einzige externe Ressource sind die Stylesheets der Schriften Inter und Cairo von Google Fonts, und die Erweiterung fällt automatisch auf lokale Schriften zurück. Jedes Wörterbuch ist lokal enthalten.
 
 **9.2 Werden Daten gesammelt?**
-Nein. Die Erweiterung enthält überhaupt keinen Netzwerkcode — du kannst das selbst im Quellcode prüfen.
+Nein. Die Erweiterung stellt keine Netzwerkanfragen — du kannst das selbst im Quellcode prüfen.
 
 **9.3 Wie ändere ich das Nummerierungsformat?**
 Öffne *Export anpassen → Nummerierungsformat*: `1.`, `1)` oder `-`.
@@ -236,9 +236,10 @@ Klicke auf den Globus im Kopfbereich und wähle eine Sprache. Standard ist Engli
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@ Englisch als Standard mit acht eingebauten Sprachen und logischem RTL-Layout, `t
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 teilt die reine Tab-/Link-Logik zwischen Popup und Hintergrund, entprellt die Abzeichen-Aktualisierung und verwendet Preview-Zeilen wieder; `python tools/bench.py --tabs 100` reproduziert die Messung.
 
 ---
 

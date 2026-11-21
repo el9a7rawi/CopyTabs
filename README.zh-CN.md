@@ -171,7 +171,7 @@
 
 打开 [Releases](https://github.com/el9a7rawi/CopyTabs/releases) 页面，下载最新构建 — **每个浏览器一个压缩包**：Chrome、Edge、Brave、Opera 和 Firefox（四个 Chromium 包完全相同；Firefox 包带有 Gecko 设置）。
 
-**Chrome / Edge / Brave / Opera**（文件 `copytabs-<browser>-vX.Y.Z.zip`，例如 `copytabs-edge-v1.3.0.zip`）：
+**Chrome / Edge / Brave / Opera**（文件 `copytabs-<browser>-vX.Y.Z.zip`，例如 `copytabs-edge-v1.3.1.zip`）：
 
 1. 解压压缩包。
 2. 打开 `chrome://extensions`（或对应页面），启用**开发者模式**。
@@ -181,7 +181,7 @@
 
 1. 解压压缩包。
 2. 打开 `about:debugging` → This Firefox → Load Temporary Add-on → 选择 `manifest.json`。
-3. 签名版本始终在 AMO 页面提供（即将上线）。
+3. 签名版本即将在 AMO 页面提供。
 
 **开发者从源码运行：** `git clone` 仓库，然后在 Chromium 浏览器中直接加载文件夹为未打包扩展；Firefox 请使用 `python tools/build.py` 的构建产物 — 源码 manifest 不带 `background.scripts`（Chrome 需要如此）。
 
@@ -209,7 +209,7 @@
 可以，完全可用；唯一的远程资源是 Google Fonts 的 Inter 和 Cairo 字体样式表，无法访问时会自动回退到本地字体。每套词典都打包在本地。
 
 **9.2 会收集我的数据吗？**
-不会。扩展里没有任何网络代码 — 你可以自己在源码中验证。
+不会。扩展不会发出任何网络请求 — 你可以自己在源码中验证。
 
 **9.3 如何更改编号格式？**
 打开 *自定义导出 → 编号格式*：`1.`、`1)` 或 `-`。
@@ -236,9 +236,10 @@
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 在弹窗与后台间共用纯逻辑，对徽章更新做防抖，并复用预览行；`python tools/bench.py --tabs 100` 可复现该测量。
 
 ---
 

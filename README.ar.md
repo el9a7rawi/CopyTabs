@@ -56,7 +56,7 @@
 
 ## 2. كيف يعمل — ثلاث خطوات
 
-1. **افتح** CopyTabs من شريط أدوات المتصفح: تظهر كل التبويبات المفتوحة، مع عدّاد حي في تلميح الزر الرئيسي.
+1. **افتح** CopyTabs من شريط أدوات المتصفح: تظهر كل التبويبات المفتوحة، مع عدّاد حي أسفل الزر الرئيسي.
 2. **اضغط** الزر الرئيسي، أو راجع المعاينة واختر الروابط التي تريدها بمفتاح مستقل لكل رابط.
 3. **شارك** — يُحمَّل ملف `.txt` فورًا، ويصل النص نفسه إلى حافظتك، وتبقى نسخة في سجل التصديرات.
 
@@ -171,7 +171,7 @@
 
 افتح صفحة [الإصدارات](https://github.com/el9a7rawi/CopyTabs/releases) وحمّل أحدث بناء — **أرشيف واحد لكل متصفح**: Chrome وEdge وBrave وOpera وFirefox (أرشيفات Chromium الأربعة متطابقة، بينما يحمل أرشيف Firefox إعدادات Gecko).
 
-**Chrome / Edge / Brave / Opera** (الملف `copytabs-<browser>-vX.Y.Z.zip` — مثلًا `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (الملف `copytabs-<browser>-vX.Y.Z.zip` — مثلًا `copytabs-edge-v1.3.1.zip`):
 
 1. فك ضغط الأرشيف.
 2. افتح `chrome://extensions` (أو الصفحة المكافئة) وفعّل **وضع المطور**.
@@ -181,7 +181,7 @@
 
 1. فك ضغط الأرشيف.
 2. افتح `about:debugging` ← This Firefox ← Load Temporary Add-on ← واختر `manifest.json`.
-3. البناء الموقّع متاح دائمًا على صفحة AMO (قريبًا).
+3. البناء الموقّع سيصبح متاحًا قريبًا على صفحة AMO.
 
 **للمطورين من المصدر:** اعمل `git clone` للمستودع، ثم حمّل المجلد مباشرة كإضافة غير مضغوطة لمتصفحات Chromium؛ ولـFirefox استخدم ناتج البناء (`python tools/build.py`) — manifest المصدر يأتي بلا `background.scripts` (مطلوب لـChrome).
 
@@ -209,7 +209,7 @@
 نعم، بالكامل؛ المورد الخارجي الوحيد هو ملف أنماط خطوط Inter وCairo من Google Fonts، وتعود الإضافة إلى خطوط النظام تلقائيًا عند تعذّره. كل قاموس لغة مضمّن محليًا.
 
 **9.2 هل تُجمع أي بيانات عني؟**
-لا. الإضافة لا تحتوي أي كود شبكة على الإطلاق — ويمكنك التحقق من ذلك بنفسك في المصدر.
+لا. الإضافة لا تُجري أي طلب شبكة — ويمكنك التحقق من ذلك بنفسك في المصدر.
 
 **9.3 كيف أغيّر صيغة الترقيم؟**
 افتح *خصّص التصدير ← صيغة الترقيم*: `1.` أو `1)` أو `-`.
@@ -236,9 +236,10 @@
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+في v1.3.1 صار منطق التبويبات والروابط مشتركًا بين الواجهة والخلفية، وتحديث الشارة مؤجَّل، وصفوف المعاينة تُعاد استخدامها — و`python tools/bench.py --tabs 100` يعيد إنتاج القياس.
 
 ---
 

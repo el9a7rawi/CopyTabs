@@ -56,7 +56,7 @@
 
 ## 2. How it works — three steps
 
-1. **Open** CopyTabs from the browser toolbar: every open tab is listed with a live count in the action hint.
+1. **Open** CopyTabs from the browser toolbar: every open tab is listed with a live count under the primary button.
 2. **Click** the primary action (or review the preview and pick individual links with the per-link toggle).
 3. **Share** — the `.txt` file downloads instantly, the same text lands in your clipboard, and a copy is kept in your export history.
 
@@ -183,7 +183,7 @@ With **include page titles** enabled:
 
 Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and download the latest build — **one archive per browser**: Chrome, Edge, Brave, Opera, and Firefox (the four Chromium archives are identical, while the Firefox archive carries the Gecko settings).
 
-**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-vX.Y.Z.zip` — for example `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (file `copytabs-<browser>-vX.Y.Z.zip` — for example `copytabs-edge-v1.3.1.zip`):
 
 1. Unzip the archive.
 2. Open `chrome://extensions` (or the equivalent page) and enable **Developer mode**.
@@ -193,7 +193,7 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 
 1. Unzip the archive.
 2. Open `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
-3. The signed build is always available on the AMO add-on page (coming soon).
+3. A signed build is coming soon on the AMO add-on page.
 
 **For developers working from source:** `git clone` the repository, then load the folder directly as an unpacked extension for Chromium browsers; for Firefox use the build output (`python tools/build.py`) — the source manifest ships without `background.scripts` (required for Chrome).
 
@@ -221,7 +221,7 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 Yes, entirely; the only remote resources are the Inter and Cairo font stylesheets from Google Fonts, and the extension falls back to local fonts automatically when they are unreachable. Every language dictionary is bundled locally.
 
 **9.2 Is any of my data collected?**
-No. The extension contains no networking code at all — and you can verify that yourself in the source.
+No. The extension makes no network requests at all — you can verify that yourself in the source.
 
 **9.3 How do I change the numbering format?**
 Open *Customize the export → Numbering format*: `1.`, `1)`, or `-`.
@@ -248,9 +248,10 @@ Click the globe icon in the header and pick a language. The default is English; 
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -265,9 +266,15 @@ English by default with eight bundled locales and a logical RTL layout, `textCon
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 shares the pure tab/link logic between popup and background, debounces badge updates, and reuses preview rows; `python tools/bench.py --tabs 100` reproduces the measurement.
 
 ---
 

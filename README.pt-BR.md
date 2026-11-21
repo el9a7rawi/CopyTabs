@@ -56,7 +56,7 @@
 
 ## 2. Como funciona — três passos
 
-1. **Abra** o CopyTabs na barra de ferramentas: cada aba aberta aparece com uma contagem ao vivo no texto do botão principal.
+1. **Abra** o CopyTabs na barra de ferramentas: cada aba aberta aparece com uma contagem ao vivo abaixo do botão principal.
 2. **Clique** na ação principal ou revise a prévia e escolha links específicos com o interruptor de cada um.
 3. **Compartilhe** — o arquivo `.txt` baixa na hora, o mesmo texto vai para a área de transferência e uma cópia fica no histórico.
 
@@ -171,7 +171,7 @@ Com **incluir títulos** ativado:
 
 Abra a página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) e baixe a compilação mais recente — **um arquivo por navegador**: Chrome, Edge, Brave, Opera e Firefox (os quatro de Chromium são idênticos; o do Firefox traz as configurações do Gecko).
 
-**Chrome / Edge / Brave / Opera** (arquivo `copytabs-<browser>-vX.Y.Z.zip`, por exemplo `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (arquivo `copytabs-<browser>-vX.Y.Z.zip`, por exemplo `copytabs-edge-v1.3.1.zip`):
 
 1. Descompacte o arquivo.
 2. Abra `chrome://extensions` (ou a página equivalente) e ative o **modo desenvolvedor**.
@@ -181,7 +181,7 @@ Abra a página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) e b
 
 1. Descompacte o arquivo.
 2. Abra `about:debugging` → This Firefox → Load Temporary Add-on → selecione `manifest.json`.
-3. A versão assinada fica sempre na página da AMO (em breve).
+3. A versão assinada chegará em breve à página da AMO.
 
 **Para desenvolvedores a partir do código:** faça `git clone` do repositório e carregue a pasta como extensão sem compactação nos navegadores Chromium; para o Firefox use a saída de `python tools/build.py` — o manifest de origem vem sem `background.scripts` (necessário no Chrome).
 
@@ -209,7 +209,7 @@ Abra a página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) e b
 Sim, por completo; o único recurso remoto são as folhas de estilo das fontes Inter e Cairo do Google Fonts, e a extensão volta às fontes locais automaticamente quando elas não carregam. Cada dicionário é incluído localmente.
 
 **9.2 Algum dado meu é coletado?**
-Não. A extensão não contém nenhum código de rede — você pode verificar isso no código-fonte.
+Não. A extensão não faz nenhuma requisição de rede — você pode verificar isso no código-fonte.
 
 **9.3 Como mudo o formato da numeração?**
 Abra *Personalize a exportação → Formato da numeração*: `1.`, `1)` ou `-`.
@@ -236,9 +236,10 @@ Clique no globo no cabeçalho e escolha um idioma. O padrão é inglês; a prime
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@ Inglês por padrão com oito locales incluídos e layout RTL lógico, `textConte
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 compartilha a lógica pura de abas e links entre popup e segundo plano, agrupa as atualizações do selo e reutiliza as linhas da prévia; `python tools/bench.py --tabs 100` reproduz a medição.
 
 ---
 

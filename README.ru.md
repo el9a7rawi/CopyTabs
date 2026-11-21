@@ -56,7 +56,7 @@
 
 ## 2. Как это работает — три шага
 
-1. **Откройте** CopyTabs на панели инструментов: каждая открытая вкладка появляется с живым счётчиком в тексте главного действия.
+1. **Откройте** CopyTabs на панели инструментов: каждая открытая вкладка появляется с живым счётчиком под главной кнопкой.
 2. **Нажмите** главное действие или просмотрите предпросмотр и выберите отдельные ссылки их переключателями.
 3. **Поделитесь** — файл `.txt` скачивается сразу, тот же текст попадает в буфер обмена, а копия остаётся в истории.
 
@@ -171,7 +171,7 @@
 
 Откройте страницу [Releases](https://github.com/el9a7rawi/CopyTabs/releases) и скачайте последнюю сборку — **один архив на браузер**: Chrome, Edge, Brave, Opera и Firefox (четыре архива Chromium одинаковы; архив Firefox содержит настройки Gecko).
 
-**Chrome / Edge / Brave / Opera** (файл `copytabs-<browser>-vX.Y.Z.zip`, например `copytabs-edge-v1.3.0.zip`):
+**Chrome / Edge / Brave / Opera** (файл `copytabs-<browser>-vX.Y.Z.zip`, например `copytabs-edge-v1.3.1.zip`):
 
 1. Распакуйте архив.
 2. Откройте `chrome://extensions` (или аналогичную страницу) и включите **режим разработчика**.
@@ -181,7 +181,7 @@
 
 1. Распакуйте архив.
 2. Откройте `about:debugging` → This Firefox → Load Temporary Add-on → выберите `manifest.json`.
-3. Подписанная сборка всегда доступна на странице AMO (скоро).
+3. Подписанная сборка скоро появится на странице AMO.
 
 **Для разработчиков из исходников:** сделайте `git clone`, затем загрузите папку как распакованное расширение в Chromium-браузерах; для Firefox используйте результат `python tools/build.py` — исходный manifest идёт без `background.scripts` (нужно для Chrome).
 
@@ -209,7 +209,7 @@
 Да, полностью; единственный внешний ресурс — таблицы стилей шрифтов Inter и Cairo с Google Fonts, и при недоступности расширение автоматически переходит на локальные шрифты. Каждый словарь встроен локально.
 
 **9.2 Собираются ли мои данные?**
-Нет. В расширении вообще нет сетевого кода — это можно проверить в исходниках.
+Нет. Расширение не делает сетевых запросов — это можно проверить в исходниках.
 
 **9.3 Как изменить формат нумерации?**
 Откройте *Настройте экспорт → Формат нумерации*: `1.`, `1)` или `-`.
@@ -236,9 +236,10 @@
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 обобщает чистую логику вкладок и ссылок для popup и фона, задерживает обновление значка и переиспользует строки предпросмотра; `python tools/bench.py --tabs 100` воспроизводит измерение.
 
 ---
 

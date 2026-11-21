@@ -56,7 +56,7 @@
 
 ## 2. Comment ça marche — trois étapes
 
-1. **Ouvrez** CopyTabs depuis la barre d’outils : chaque onglet ouvert est listé avec un compteur en direct dans le texte du bouton principal.
+1. **Ouvrez** CopyTabs depuis la barre d’outils : chaque onglet ouvert est listé avec un compteur en direct sous le bouton principal.
 2. **Cliquez** sur l’action principale, ou parcourez l’aperçu et choisissez des liens précis avec l’interrupteur de chaque ligne.
 3. **Partagez** — le fichier `.txt` se télécharge aussitôt, le même texte arrive dans le presse-papiers et une copie reste dans l’historique.
 
@@ -171,7 +171,7 @@ Avec **inclure les titres** activé :
 
 Ouvrez la page des [Releases](https://github.com/el9a7rawi/CopyTabs/releases) et téléchargez la dernière compilation — **une archive par navigateur** : Chrome, Edge, Brave, Opera et Firefox (les quatre archives Chromium sont identiques ; celle de Firefox contient les réglages Gecko).
 
-**Chrome / Edge / Brave / Opera** (fichier `copytabs-<browser>-vX.Y.Z.zip`, par exemple `copytabs-edge-v1.3.0.zip`) :
+**Chrome / Edge / Brave / Opera** (fichier `copytabs-<browser>-vX.Y.Z.zip`, par exemple `copytabs-edge-v1.3.1.zip`) :
 
 1. Décompressez l’archive.
 2. Ouvrez `chrome://extensions` (ou la page équivalente) et activez le **mode développeur**.
@@ -181,7 +181,7 @@ Ouvrez la page des [Releases](https://github.com/el9a7rawi/CopyTabs/releases) et
 
 1. Décompressez l’archive.
 2. Ouvrez `about:debugging` → This Firefox → Load Temporary Add-on → sélectionnez `manifest.json`.
-3. La version signée reste disponible sur la page AMO (bientôt).
+3. Une version signée sera bientôt disponible sur la page AMO.
 
 **Pour les développeurs depuis les sources :** `git clone` le dépôt, puis chargez le dossier comme extension non empaquetée dans les navigateurs Chromium ; pour Firefox utilisez la sortie de `python tools/build.py` — le manifest source n’a pas `background.scripts` (requis pour Chrome).
 
@@ -209,7 +209,7 @@ Ouvrez la page des [Releases](https://github.com/el9a7rawi/CopyTabs/releases) et
 Oui, entièrement ; la seule ressource distante est la feuille de style des polices Inter et Cairo de Google Fonts, et l’extension revient aux polices locales si elle est inaccessible. Chaque dictionnaire est embarqué.
 
 **9.2 Mes données sont-elles collectées ?**
-Non. L’extension ne contient aucun code réseau — vous pouvez le vérifier vous-même dans les sources.
+Non. L’extension n’effectue aucune requête réseau — vous pouvez le vérifier vous-même dans les sources.
 
 **9.3 Comment changer le format de numérotation ?**
 Ouvrez *Personnaliser l’exportation → Format de numérotation* : `1.`, `1)` ou `-`.
@@ -236,9 +236,10 @@ Cliquez sur le globe de l’en-tête et choisissez une langue. L’anglais est p
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots (one folder per language) + browser icons
+├── assets/            ← README screenshots per language, brand covers, and browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
+├── tools/check_readme_assets.py ← verifies every README image link
 ├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
 ├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
 └── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
@@ -253,9 +254,15 @@ Anglais par défaut avec huit locales embarquées et une mise en page RTL logiqu
 ```powershell
 python3 -c "import json; json.load(open('manifest.json')); print('manifest OK')"
 python3 tools/check_locales.py
+python3 tools/check_readme_assets.py
+node --test tools/test_*.mjs
+python3 tools/bench.py --tabs 100
+python3 tools/build.py
 ```
 
 </div>
+
+v1.3.1 partage la logique pure des onglets et liens entre le popup et l’arrière-plan, regroupe les mises à jour du badge et réutilise les lignes de l’aperçu ; `python tools/bench.py --tabs 100` reproduit la mesure.
 
 ---
 
