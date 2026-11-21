@@ -10,7 +10,7 @@
   --primary-soft: #eef0ff;
   --accent: #4f46e5;
   --accent-soft: #eef0ff;
-  --success: #059669;
+  --success: #047857;
   --danger: #dc2626;
   --radius: 16px;
   --shadow: 0 8px 28px rgba(79, 70, 229, 0.10);
@@ -45,14 +45,6 @@ body {
 }
 /* ===== نظام المسافات (مضاعفات 0.25rem = 4px) ===== */
 .app { padding: 16px 16px 12px; display: flex; flex-direction: column; gap: 12px; }
-.header { margin-bottom: 0; }
-.hero { margin-bottom: 0; display: flex; flex-direction: column; gap: 8px; }
-.card { padding: 14px; margin-bottom: 0; }
-.card-head { margin-bottom: 12px; }
-.opts { gap: 8px; }
-/* ملاحظة: بادينج قوائم المعاينة والسجل مضبوط داخل قواعدهما الأساسية (قسم Preview/History) */
-.opt { padding: 10px 12px; }
-.footer { padding: 4px 4px 6px; }
 
 /* Header */
 .header {
@@ -60,10 +52,6 @@ body {
   margin-bottom: 12px;
 }
 .brand { display: flex; gap: 10px; align-items: center; }
-.logo-img {
-  width: 44px; height: 44px; border-radius: 14px; display: block; flex-shrink: 0;
-  box-shadow: var(--shadow);
-}
 h1 { font-size: 16px; margin: 0; font-weight: 800; }
 .subtitle { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
 .header-actions { display: flex; gap: 8px; align-items: center; }
@@ -80,7 +68,7 @@ h1 { font-size: 16px; margin: 0; font-weight: 800; }
 .icon-btn svg[hidden] { display: none; }
 
 /* Hero */
-.hero { margin-bottom: 12px; }
+.hero { margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
 /* الأزرار الثلاثة الرئيسية: ارتفاع ثابت في كل اللغات حتى لا يتحرك التخطيط */
 .primary-btn {
   width: 100%; height: 88px; border: 0; cursor: pointer; color: #fff;
@@ -155,14 +143,8 @@ a.icon-btn { text-decoration: none; }
 .search-clear[hidden] { display: none; }
 .search-clear:hover { filter: brightness(0.93); }
 .search-clear svg { display: block; }
-.link-btn {
-  background: none; border: 0; cursor: pointer; font-family: inherit;
-  color: var(--accent); font-size: 12.5px; font-weight: 700;
-}
+/* Preview — البادينج هنا داخل القاعدة الأساسية حتى لا يمسحه أي shorthand لاحق */
 
-/* Preview */
-/* Preview — البادينج هنا داخل القاعدة الأساسية حتى لا يمسحه أي shorthand لاحق.
-   padding-inline-end يبعد العناصر عن السكرول العمودي في الاتجاهين. */
 .preview { list-style: none; margin: 0; padding: 0; padding-inline-end: 8px; max-height: 170px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
 .preview li[hidden] { display: none; }
 .preview li {
@@ -186,13 +168,17 @@ a.icon-btn { text-decoration: none; }
 /* الرقم في span مستقل حتى يبقى ملتصقًا بأول كلمة ولا ينزل سطرًا وحده */
 .opt-text { flex: 1 1 auto; min-width: 0; display: flex; align-items: baseline; gap: 4px; line-height: 1.35; }
 .opt-num { flex: 0 0 auto; color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
-.opt select, .opt input[type="text"] {
+.opt input[type="text"] {
   font-family: inherit; font-size: 12.5px; color: var(--text);
   border: 1px solid var(--border); border-radius: 9px; padding: 0 8px; height: 35px; background: var(--card);
   max-width: 170px;
 }
-.switch-opt { cursor: pointer; }
-.switch-opt input { display: none; }
+.switch-opt { cursor: pointer; position: relative; }
+/* إخفاء بصري يحفظ التركيز وقارئ الشاشة بعكس display:none */
+.switch-opt input {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
 .switch {
   width: 40px; height: 22px; border-radius: 999px; background: #cbd0dd; position: relative; flex-shrink: 0; transition: 0.2s;
 }
@@ -203,6 +189,7 @@ a.icon-btn { text-decoration: none; }
 }
 .switch-opt input:checked + .switch { background: var(--primary); }
 .switch-opt input:checked + .switch::after { transform: translateX(18px); }
+.switch-opt input:focus-visible + .switch { outline: 2px solid var(--accent); outline-offset: 2px; }
 body[data-theme="dark"] .switch { background: #3f3f46; }
 
 /* History */

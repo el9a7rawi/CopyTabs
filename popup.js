@@ -2,7 +2,7 @@
 
 import { t, loadLocale, localeCode, matchLocale, applyTranslations } from './i18n.js';
 import { detectBrowser } from './browser.js';
-import { SETTINGS_DEFAULTS, prepareTabs, sortTabs, formatLinks, makeFileName, sanitizeFileName } from './core.js';
+import { SETTINGS_DEFAULTS, prepareTabs, sortTabs, formatLinks, makeFileName, sanitizeFileName, scopeQuery } from './core.js';
 import { createPreview } from './preview.js';
 
 const DEFAULTS = SETTINGS_DEFAULTS;
@@ -96,12 +96,8 @@ function readSettingsFromUI() {
 async function refreshTabs(preserveFrom) {
   setStatus(t('statusLoading'));
   try {
-    let query = {};
-    if (settings.scope === 'current') {
-      const win = await chrome.windows.getCurrent();
-      query = { windowId: win.id };
-    }
-    allTabs = prepareTabs(await chrome.tabs.query(query), settings);
+    const win = await chrome.windows.getCurrent();
+    allTabs = prepareTabs(await chrome.tabs.query(scopeQuery(settings, win?.id)), settings);
     if (preserveFrom) {
       for (const tab of allTabs) {
         if (preserveFrom.has(tab.url)) tab.checked = preserveFrom.get(tab.url);
@@ -109,14 +105,18 @@ async function refreshTabs(preserveFrom) {
     }
     renderPreview();
     updateBadge(allTabs.length);
-    $('heroHint').textContent = allTabs.length
-      ? t('heroHintCount', { n: allTabs.length })
-      : t('heroHintEmpty');
+    updateHeroHint();
     setStatus(allTabs.length ? '' : t('statusNoLinks'));
   } catch (err) {
     console.error(err);
     setStatus(t('errorTabs'), true);
   }
+}
+
+function updateHeroHint() {
+  $('heroHint').textContent = allTabs.length
+    ? t('heroHintCount', { n: allTabs.length })
+    : t('heroHintEmpty');
 }
 
 // اسم خيار صفحات النظام يتبع المتصفح المضيف (chrome:// أو edge:// أو about: …)
@@ -405,6 +405,8 @@ async function changeLanguage(code) {
   syncCustomSelects();
   applyTheme();
   preview.refreshLabels(); // بيانات التبويبات لا تترجم — لا حاجة لإعادة الاستعلام عنها
+  updateHeroHint(); // النص الافتراضي الذي كتبته applyTranslations لا يعكس عدّاد التبويبات
+  setStatus(''); // رسالة الحالة باللغة القديمة تُزال بدل تركها مترجمة جزئيًا
   await renderHistory();
 }
 

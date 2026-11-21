@@ -49,6 +49,9 @@ test('render reuses the same li nodes across searches and preserves checked stat
   assert.equal(list.children[0].children[0].checked, true);
   const createdAfterFirst = createdElements;
   const firstLi = list.children[0];
+  let listAppends = 0;
+  const origAppend = list.appendChild.bind(list);
+  list.appendChild = (child) => { listAppends++; return origAppend(child); };
 
   tabs[0].checked = false;
   assert.equal(preview.render(tabs, 'https://example.com/0'), 1);
@@ -59,6 +62,9 @@ test('render reuses the same li nodes across searches and preserves checked stat
   assert.equal(preview.render(tabs), 100);
   assert.equal(shown(list), 100);
   assert.equal(createdElements, createdAfterFirst, 'no DOM nodes may be created after the first render');
+  const appendsAfterRestore = listAppends;
+  preview.render(tabs);
+  assert.equal(listAppends, appendsAfterRestore, 'an unchanged tab order must not re-append rows');
   assert.equal(empty.hidden, true);
 });
 

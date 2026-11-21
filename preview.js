@@ -1,6 +1,7 @@
 // preview.js — معاينة الروابط: إعادة استخدام عقد القائمة بدل إعادة بنائها مع كل حرف بحث.
 export function createPreview(listEl, emptyEl, t) {
-  const rows = new Map(); // tab.id -> { li, cb, title, url, tab }
+  const rows = new Map(); // tab.id -> { li, cb, title, url, tab, inList }
+  let orderKey = '';
 
   function makeRow(tab) {
     const li = document.createElement('li');
@@ -17,7 +18,7 @@ export function createPreview(listEl, emptyEl, t) {
     meta.append(title, url);
     li.append(cb, meta);
 
-    const row = { li, cb, title, url, tab };
+    const row = { li, cb, title, url, tab, inList: false };
     cb.addEventListener('change', () => { row.tab.checked = cb.checked; });
     return row;
   }
@@ -38,21 +39,29 @@ export function createPreview(listEl, emptyEl, t) {
     const shown = new Set(visible.map((tab) => tab.id));
 
     // الصفوف المتبقية من تبويبات أُغلقت تُحذف حتى لا تنمو القائمة بلا حد
+    const ids = tabs.map((tab) => tab.id).join(',');
     const current = new Set(tabs.map((tab) => tab.id));
     for (const [id, row] of rows) {
       if (!current.has(id)) { row.li.remove(); rows.delete(id); }
     }
 
-    // العقد تُبنى مرة واحدة ثم تُخفى/تُظهر — البحث لا ينشئ عقدًا جديدة
+    // البحث يبدّل hidden فقط — لا عقد جديدة ولا إلحاق متكرر عند ثبات الترتيب
+    const orderChanged = ids !== orderKey;
     const frag = document.createDocumentFragment();
     for (const tab of tabs) {
       let row = rows.get(tab.id);
-      if (!row) { row = makeRow(tab); rows.set(tab.id, row); }
-      updateRow(row, tab);
+      const isNew = !row;
+      if (isNew) { row = makeRow(tab); rows.set(tab.id, row); }
+      if (isNew || row.tab !== tab) updateRow(row, tab);
+      row.cb.checked = tab.checked; // التحديد يتغير без استبدال كائن التبويب
       row.li.hidden = !shown.has(tab.id);
-      frag.appendChild(row.li);
+      if (orderChanged || !row.inList) {
+        row.inList = true;
+        frag.appendChild(row.li);
+      }
     }
-    listEl.appendChild(frag);
+    if (frag.children.length) listEl.appendChild(frag);
+    orderKey = ids;
     emptyEl.hidden = visible.length > 0;
     return visible.length;
   }
