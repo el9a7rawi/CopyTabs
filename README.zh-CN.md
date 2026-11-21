@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon128.png" width="96" alt="CopyTabs" />
+  <img src="assets/brand/cover-zh-CN.webp" width="100%" alt="CopyTabs — 一键复制标签页链接" />
 </p>
 
 <h1 align="center">CopyTabs — 一键复制标签页链接</h1>
@@ -17,10 +17,6 @@
 
 <p align="center">
   <a href="README.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md">Deutsch</a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md">Русский</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md"><b>中文（简体）</b></a>
-</p>
-
-<p align="center">
-  <img src="assets/brand/cover-zh-CN.webp" width="100%" alt="CopyTabs — 一键复制标签页链接" />
 </p>
 
 <h3 align="center">为你的浏览器下载 — 点击图标</h3>

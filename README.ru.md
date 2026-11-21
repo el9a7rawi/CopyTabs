@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon128.png" width="96" alt="CopyTabs" />
+  <img src="assets/brand/cover-ru.webp" width="100%" alt="CopyTabs — Копирование ссылок вкладок в один клик" />
 </p>
 
 <h1 align="center">CopyTabs — Копирование ссылок вкладок в один клик</h1>
@@ -17,10 +17,6 @@
 
 <p align="center">
   <a href="README.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md">Deutsch</a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md"><b>Русский</b></a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文（简体）</a>
-</p>
-
-<p align="center">
-  <img src="assets/brand/cover-ru.webp" width="100%" alt="CopyTabs — Копирование ссылок вкладок в один клик" />
 </p>
 
 <h3 align="center">Скачайте для своего браузера — нажмите на значок</h3>

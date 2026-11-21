@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon128.png" width="96" alt="CopyTabs" />
+  <img src="assets/brand/cover-pt-BR.webp" width="100%" alt="CopyTabs — Copiador de links de abas em um clique" />
 </p>
 
 <h1 align="center">CopyTabs — Copiador de links de abas em um clique</h1>
@@ -17,10 +17,6 @@
 
 <p align="center">
   <a href="README.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md">Deutsch</a> · <a href="README.pt-BR.md"><b>Português (Brasil)</b></a> · <a href="README.ru.md">Русский</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文（简体）</a>
-</p>
-
-<p align="center">
-  <img src="assets/brand/cover-pt-BR.webp" width="100%" alt="CopyTabs — Copiador de links de abas em um clique" />
 </p>
 
 <h3 align="center">Baixe para o seu navegador — clique no ícone</h3>
