@@ -1,21 +1,11 @@
 // popup.js — واجهة الإضافة (MV3, type=module). كل بيانات المستخدم تُعرض عبر textContent فقط.
 
 import { t, loadLocale, localeCode, matchLocale, applyTranslations } from './i18n.js';
-import { SYSTEM_PREFIXES, detectBrowser } from './browser.js';
+import { detectBrowser } from './browser.js';
+import { SETTINGS_DEFAULTS, prepareTabs, sortTabs, formatLinks, makeFileName, sanitizeFileName } from './core.js';
+import { createPreview } from './preview.js';
 
-const DEFAULTS = {
-  scope: 'current',          // النطاق
-  includeTitles: false,      // تضمين العناوين
-  removeDuplicates: true,    // إزالة المكرر
-  skipSystem: true,          // تخطي صفحات النظام
-  sortOrder: 'original',     // الترتيب: original|az|domain
-  numberFormat: 'dot',       // الترقيم: dot|paren|dash
-  fileName: 'tabs-links',    // اسم الملف
-  autoCopy: true,            // نسخ تلقائي
-  darkMode: false,           // يعكس body[data-theme]
-  saveHistory: true,         // حفظ السجل
-  lang: ''                   // لغة الواجهة — فارغة تعني أن المستخدم لم يختر بعد
-};
+const DEFAULTS = SETTINGS_DEFAULTS;
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -37,6 +27,8 @@ const els = {
 };
 const optIds = ['scope', 'includeTitles', 'removeDuplicates', 'skipSystem', 'sortOrder', 'numberFormat', 'fileName', 'autoCopy', 'darkMode', 'saveHistory'];
 
+const preview = createPreview(els.previewList, els.emptyState, t);
+
 let settings = { ...DEFAULTS };
 let allTabs = [];       // [{id, title, url, checked}]
 
@@ -51,8 +43,7 @@ async function init() {
   enhanceCustomSelects();
   syncCustomSelects();
   bindEvents();
-  await refreshTabs();
-  await renderHistory();
+  await Promise.all([refreshTabs(), renderHistory()]);
   applyTheme();
 }
 
@@ -101,13 +92,8 @@ function readSettingsFromUI() {
   settings.fileName = sanitizeFileName(settings.fileName || DEFAULTS.fileName);
 }
 
-function sanitizeFileName(name) {
-  const clean = String(name).trim().replace(/[\\/:*?"<>|]/g, '-').slice(0, 60) || 'tabs-links';
-  return clean;
-}
-
 // ---------- Tabs ----------
-async function refreshTabs() {
+async function refreshTabs(preserveFrom) {
   setStatus(t('statusLoading'));
   try {
     let query = {};
@@ -115,21 +101,12 @@ async function refreshTabs() {
       const win = await chrome.windows.getCurrent();
       query = { windowId: win.id };
     }
-    const tabs = await chrome.tabs.query(query);
-    allTabs = tabs
-      .filter((tab) => tab.url)
-      .filter((tab) => (settings.skipSystem ? !isSystemUrl(tab.url) : true))
-      .map((tab) => ({ id: tab.id, title: (tab.title || '').trim() || tab.url, url: tab.url, checked: true }));
-
-    if (settings.removeDuplicates) {
-      const seen = new Set();
-      allTabs = allTabs.filter((tab) => {
-        if (seen.has(tab.url)) return false;
-        seen.add(tab.url);
-        return true;
-      });
+    allTabs = prepareTabs(await chrome.tabs.query(query), settings);
+    if (preserveFrom) {
+      for (const tab of allTabs) {
+        if (preserveFrom.has(tab.url)) tab.checked = preserveFrom.get(tab.url);
+      }
     }
-    applySort();
     renderPreview();
     updateBadge(allTabs.length);
     $('heroHint').textContent = allTabs.length
@@ -142,10 +119,6 @@ async function refreshTabs() {
   }
 }
 
-function isSystemUrl(url) {
-  return SYSTEM_PREFIXES.some((p) => url.startsWith(p));
-}
-
 // اسم خيار صفحات النظام يتبع المتصفح المضيف (chrome:// أو edge:// أو about: …)
 // عزل المخطط LTR يمنع انقلاب chrome:// داخل جملة عربية
 function applyBrowserCopy() {
@@ -155,17 +128,6 @@ function applyBrowserCopy() {
   label.textContent = scheme
     ? t('optSkipSystem', { scheme: `\u2066${scheme}\u2069` })
     : t('optSkipSystemPlain');
-}
-
-function applySort() {
-  if (settings.sortOrder === 'az') {
-    allTabs.sort((a, b) => a.url.localeCompare(b.url));
-  } else if (settings.sortOrder === 'domain') {
-    allTabs.sort((a, b) => domainOf(a.url).localeCompare(domainOf(b.url)));
-  }
-}
-function domainOf(url) {
-  try { return new URL(url).hostname; } catch { return url; }
 }
 
 // ---------- Search ----------
@@ -190,47 +152,12 @@ function collapseSearch() {
 
 // ---------- Preview + search ----------
 function renderPreview() {
-  const q = (els.searchInput.value || '').trim().toLowerCase();
-  els.previewList.innerHTML = '';
-  const visible = allTabs.filter((tab) =>
-    !q || tab.url.toLowerCase().includes(q) || tab.title.toLowerCase().includes(q)
-  );
-  els.emptyState.hidden = visible.length > 0;
-
-  for (const tab of visible) {
-    const li = document.createElement('li');
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.checked = tab.checked;
-    cb.setAttribute('aria-label', t('itemSelect'));
-    cb.addEventListener('change', () => { tab.checked = cb.checked; });
-
-    const meta = document.createElement('div');
-    meta.className = 'meta';
-    const title = document.createElement('div');
-    title.className = 't';
-    title.textContent = tab.title; // textContent فقط — منع XSS
-    const url = document.createElement('div');
-    url.className = 'u';
-    url.textContent = tab.url;
-    url.title = tab.url;
-    meta.append(title, url);
-    li.append(cb, meta);
-    els.previewList.appendChild(li);
-  }
+  preview.render(allTabs, els.searchInput.value);
 }
 
 // ---------- Formatting ----------
 function selectedTabs() {
   return allTabs.filter((tab) => tab.checked);
-}
-
-function formatText(tabs) {
-  return tabs.map((tab, i) => {
-    const prefix = settings.numberFormat === 'paren' ? `${i + 1}) ` : settings.numberFormat === 'dash' ? `- ` : `${i + 1}. `;
-    if (settings.includeTitles) return `${prefix}${tab.title} — ${tab.url}`;
-    return `${prefix}${tab.url}`;
-  }).join('\n');
 }
 
 // ---------- Export actions ----------
@@ -240,10 +167,10 @@ async function handleMainExport() {
   await refreshTabsKeepChecks();
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus(t('statusNeedOne'), true);
-  const text = formatText(tabs);
+  const text = formatLinks(tabs, settings);
   let copied = false;
   if (settings.autoCopy) copied = await copyToClipboard(text);
-  const okDl = await downloadTxt(text, buildFileName());
+  const okDl = await downloadTxt(text, makeFileName(settings.fileName));
   if (okDl) {
     await pushHistory(tabs.length, text);
     setStatus(copied ? t('statusDoneBoth', { n: tabs.length }) : t('statusDoneDl', { n: tabs.length }));
@@ -256,7 +183,7 @@ async function handleCopyOnly() {
   await refreshTabsKeepChecks();
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus(t('statusNeedOne'), true);
-  const text = formatText(tabs);
+  const text = formatLinks(tabs, settings);
   const ok = await copyToClipboard(text);
   if (ok) {
     await pushHistory(tabs.length, text);
@@ -272,8 +199,8 @@ async function handleDownloadOnly() {
   await refreshTabsKeepChecks();
   const tabs = selectedTabs();
   if (!tabs.length) return setStatus(t('statusNeedOne'), true);
-  const text = formatText(tabs);
-  const ok = await downloadTxt(text, buildFileName());
+  const text = formatLinks(tabs, settings);
+  const ok = await downloadTxt(text, makeFileName(settings.fileName));
   if (ok) {
     await pushHistory(tabs.length, text);
     setStatus(t('statusDownloaded', { n: tabs.length }));
@@ -283,17 +210,7 @@ async function handleDownloadOnly() {
 // إعادة التحميل مع الحفاظ على التحديد السابق (حسب URL)
 async function refreshTabsKeepChecks() {
   const prev = new Map(allTabs.map((tab) => [tab.url, tab.checked]));
-  await refreshTabs();
-  for (const tab of allTabs) {
-    if (prev.has(tab.url)) tab.checked = prev.get(tab.url);
-  }
-  renderPreview();
-}
-
-function buildFileName() {
-  const d = new Date();
-  const stamp = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  return `${settings.fileName}-${stamp}.txt`;
+  await refreshTabs(prev);
 }
 
 async function copyToClipboard(text) {
@@ -372,7 +289,7 @@ async function renderHistory() {
       btn.setAttribute('aria-label', t('historyRedownloadAria'));
       btn.title = t('historyRedownloadTitle');
       btn.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-      btn.addEventListener('click', () => downloadTxt(h.full || h.preview, buildFileName()));
+      btn.addEventListener('click', () => downloadTxt(h.full || h.preview, makeFileName(settings.fileName)));
       li.append(label, btn);
       els.historyList.appendChild(li);
     });
@@ -444,7 +361,7 @@ function bindEvents() {
       readSettingsFromUI();
       await saveSettings();
       applyTheme();
-      if (keepChecks) { applySort(); renderPreview(); }
+      if (keepChecks) { allTabs = sortTabs(allTabs, settings); renderPreview(); }
       else await refreshTabsKeepChecks();
     });
   }
@@ -487,7 +404,7 @@ async function changeLanguage(code) {
   refreshCustomSelectLabels();
   syncCustomSelects();
   applyTheme();
-  await refreshTabsKeepChecks();
+  preview.refreshLabels(); // بيانات التبويبات لا تترجم — لا حاجة لإعادة الاستعلام عنها
   await renderHistory();
 }
 

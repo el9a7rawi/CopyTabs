@@ -164,6 +164,7 @@ a.icon-btn { text-decoration: none; }
 /* Preview — البادينج هنا داخل القاعدة الأساسية حتى لا يمسحه أي shorthand لاحق.
    padding-inline-end يبعد العناصر عن السكرول العمودي في الاتجاهين. */
 .preview { list-style: none; margin: 0; padding: 0; padding-inline-end: 8px; max-height: 170px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.preview li[hidden] { display: none; }
 .preview li {
   display: flex; gap: 8px; align-items: flex-start;
   border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font-size: 12px;
