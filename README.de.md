@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <sub><b>Languages:</b> <a href="README.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md"><b>Deutsch</b></a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md">Русский</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文（简体）</a></sub>
+  <a href="README.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.fr.md">Français</a> · <a href="README.de.md"><b>Deutsch</b></a> · <a href="README.pt-BR.md">Português (Brasil)</a> · <a href="README.ru.md">Русский</a> · <a href="README.ar.md">العربية</a> · <a href="README.zh-CN.md">中文（简体）</a>
 </p>
 
 <p align="center">
@@ -31,10 +31,6 @@
 |---|---|---|---|---|
 
 </div>
-
-<p align="center">
-  <img src="assets/screenshots/de/popup-light.webp" width="280" alt="CopyTabs-Oberfläche — helles Design" />
-</p>
 
 ---
 
