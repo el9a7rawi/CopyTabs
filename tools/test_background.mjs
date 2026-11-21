@@ -7,6 +7,10 @@ import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const listeners = {};
 const calls = { query: 0, badgeText: [], badgeColor: 0, storageGet: 0 };
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let queryDelay = 0;
+let queryTabs = null;
+let failNextStorageGet = false;
 
 const mockTabs = [
   { id: 1, title: 'A', url: 'https://a.test/' },
@@ -43,7 +47,11 @@ global.chrome = {
   i18n: { getUILanguage: () => 'en-US' },
   storage: {
     local: {
-      get: async () => { calls.storageGet++; return { ct_settings: settings, ct_history: [] }; },
+      get: async () => {
+        calls.storageGet++;
+        if (failNextStorageGet) { failNextStorageGet = false; throw new Error('transient storage failure'); }
+        return { ct_settings: settings, ct_history: [] };
+      },
       set: async () => {}
     },
     onChanged: { addListener: (fn) => on('storage', 'changed', fn) }
@@ -55,7 +63,11 @@ global.chrome = {
   },
   commands: { onCommand: { addListener: (fn) => on('commands', 'command', fn) } },
   tabs: {
-    query: async () => { calls.query++; return mockTabs; },
+    query: async () => {
+      calls.query++;
+      if (queryDelay) await wait(queryDelay);
+      return queryTabs || mockTabs;
+    },
     onCreated: { addListener: (fn) => on('tabs', 'created', fn) },
     onRemoved: { addListener: (fn) => on('tabs', 'removed', fn) },
     onUpdated: { addListener: (fn) => on('tabs', 'updated', fn) }
@@ -74,8 +86,6 @@ global.chrome = {
 
 await import('../background.js?test=' + Date.now());
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 test('badge ignores loading-only updates, debounces real ones and writes once', async () => {
   assert.ok(listeners.tabs?.updated, 'onUpdated listener must be registered');
 
@@ -90,5 +100,38 @@ test('badge ignores loading-only updates, debounces real ones and writes once', 
 
   assert.equal(calls.badgeColor, 1, 'badge color must be written once, not per event');
   assert.deepEqual(calls.badgeText, ['8'], 'badge must count exportable, deduplicated tabs only');
-  assert.ok(calls.storageGet <= 2, 'settings must be cached, not read per event');
+  assert.equal(calls.storageGet, 1, 'settings must be read once and cached');
+});
+
+test('repeated tab events never re-read settings from storage', async () => {
+  const before = calls.storageGet;
+  for (let i = 0; i < 20; i++) {
+    listeners.tabs.created(i + 1, {}, mockTabs[0]);
+    await wait(170);
+  }
+  assert.equal(calls.storageGet, before, 'cached settings must survive many badge refreshes');
+});
+
+test('a slower older badge refresh cannot overwrite a newer count', async () => {
+  queryDelay = 60;
+  queryTabs = mockTabs; // 8 exportable
+  listeners.tabs.created(1);
+  await wait(15);
+  queryTabs = mockTabs.slice(0, 7); // 7 exportable, newer event
+  listeners.tabs.created(2);
+  await wait(300);
+  queryDelay = 0;
+  queryTabs = null;
+  assert.equal(calls.badgeText.at(-1), '7', 'the newest query must win the final badge write');
+});
+
+test('a transient storage failure does not poison future settings reads', async () => {
+  failNextStorageGet = true;
+  await import('../background.js?recovery=' + Date.now());
+  listeners.tabs.created(1);
+  await wait(250);
+  const before = calls.badgeText.length;
+  listeners.tabs.created(2);
+  await wait(250);
+  assert.ok(calls.badgeText.length > before, 'badge must recover after one transient storage error');
 });

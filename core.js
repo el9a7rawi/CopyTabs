@@ -57,5 +57,11 @@ export function makeFileName(base, now = new Date()) {
 }
 
 export function isBadgeRelevantChange(changeInfo = {}) {
-  return changeInfo.status === 'complete' || 'url' in changeInfo || 'title' in changeInfo || 'favIconUrl' in changeInfo;
+  // only URL changes can alter the exportable count; favicon/title changes cannot
+  return changeInfo.status === 'complete' || 'url' in changeInfo;
+}
+
+export function scopeQuery(settings, windowId) {
+  // غياب النافذة المركّزة حالة انتقالية — نعدّ الكل بدل استعلام بـ windowId غير معرّف
+  return settings.scope === 'all' || !windowId ? {} : { windowId };
 }

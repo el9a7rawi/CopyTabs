@@ -1,7 +1,7 @@
 // background.js — خلفية الإضافة (مستمعون top-level فقط): إعدادات افتراضية، قائمة سياق، شارة العدد، تصدير سريع.
 
 import { loadLocale, matchLocale, t } from './i18n.js';
-import { SETTINGS_DEFAULTS, prepareTabs, formatLinks, makeFileName, isBadgeRelevantChange } from './core.js';
+import { SETTINGS_DEFAULTS, prepareTabs, formatLinks, makeFileName, isBadgeRelevantChange, scopeQuery } from './core.js';
 
 const BADGE_DEBOUNCE_MS = 150;
 
@@ -36,6 +36,9 @@ async function getSettings() {
       if (!cachedSettings) cachedSettings = { ...SETTINGS_DEFAULTS, ...(ct_settings || {}) };
       settingsPromise = null;
       return cachedSettings;
+    }).catch((err) => {
+      settingsPromise = null; // فشل عابر لا يجب أن يسمّم كل الاستدعاءات القادمة
+      throw err;
     });
   }
   return settingsPromise;
@@ -88,17 +91,17 @@ async function refreshBadge() {
   const generation = ++badgeGeneration;
   try {
     const s = await getSettings();
-    const query = s.scope === 'all' ? {} : { windowId: (await chrome.windows.getLastFocused())?.id };
-    const tabs = await chrome.tabs.query(query);
+    const win = await chrome.windows.getCurrent();
+    const tabs = await chrome.tabs.query(scopeQuery(s, win?.id));
     if (generation !== badgeGeneration) return; // نتيجة قديمة لا تكتب فوق الأحدث
     const n = prepareTabs(tabs, s).length;
     if (n !== lastBadgeCount) {
+      lastBadgeCount = n; // قبل الـ await حتى لا يعيد تداخل كتابة العدد نفسه
       await chrome.action.setBadgeText({ text: n > 0 ? String(n) : '' });
-      lastBadgeCount = n;
     }
     if (!badgeColorSet) {
-      await chrome.action.setBadgeBackgroundColor({ color: '#4f46e5' });
       badgeColorSet = true;
+      await chrome.action.setBadgeBackgroundColor({ color: '#4f46e5' });
     }
   } catch { /* تجاهل */ }
 }
@@ -106,8 +109,8 @@ async function refreshBadge() {
 async function quickExport() {
   try {
     const s = await getSettings();
-    const query = s.scope === 'all' ? {} : { windowId: (await chrome.windows.getLastFocused())?.id };
-    const tabs = prepareTabs(await chrome.tabs.query(query), s);
+    const win = await chrome.windows.getCurrent();
+    const tabs = prepareTabs(await chrome.tabs.query(scopeQuery(s, win?.id)), s);
     const text = formatLinks(tabs, s);
     if (!text) return;
     await chrome.downloads.download({

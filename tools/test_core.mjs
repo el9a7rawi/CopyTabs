@@ -71,11 +71,17 @@ test('makeFileName appends the local date stamp', () => {
   assert.equal(core.makeFileName('bad/name', d), 'bad-name-2026-11-21.txt');
 });
 
-test('isBadgeRelevantChange ignores loading-only tab updates', () => {
+test('isBadgeRelevantChange only reacts to events that can change the count', () => {
   assert.equal(core.isBadgeRelevantChange({}), false);
   assert.equal(core.isBadgeRelevantChange({ status: 'loading' }), false);
   assert.equal(core.isBadgeRelevantChange({ status: 'complete' }), true);
   assert.equal(core.isBadgeRelevantChange({ url: 'https://x.test/' }), true);
-  assert.equal(core.isBadgeRelevantChange({ title: 'x' }), true);
-  assert.equal(core.isBadgeRelevantChange({ favIconUrl: 'https://x.test/f.ico' }), true);
+  assert.equal(core.isBadgeRelevantChange({ title: 'x' }), false);
+  assert.equal(core.isBadgeRelevantChange({ favIconUrl: 'https://x.test/f.ico' }), false);
+});
+
+test('scopeQuery is identical for popup and background and safe without a window', () => {
+  assert.deepEqual(core.scopeQuery(settings, 7), { windowId: 7 });
+  assert.deepEqual(core.scopeQuery({ ...settings, scope: 'all' }, 7), {});
+  assert.deepEqual(core.scopeQuery(settings, undefined), {});
 });
