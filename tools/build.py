@@ -38,6 +38,8 @@ PACKAGE_FILES = [
     "popup.js",
     "i18n.js",
     "browser.js",
+    "core.js",
+    "preview.js",
     "background.js",
     "LICENSE",
     "icons/icon16.png",

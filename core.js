@@ -24,6 +24,11 @@ export function prepareTabs(tabs, settings) {
     const seen = new Set();
     out = out.filter((tab) => (seen.has(tab.url) ? false : (seen.add(tab.url), true)));
   }
+  return sortTabs(out, settings);
+}
+
+export function sortTabs(tabs, settings) {
+  const out = [...tabs];
   if (settings.sortOrder === 'az') {
     out.sort((a, b) => a.url.localeCompare(b.url));
   } else if (settings.sortOrder === 'domain') {

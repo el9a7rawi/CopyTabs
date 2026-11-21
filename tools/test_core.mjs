@@ -41,6 +41,16 @@ test('prepareTabs sorts by URL and by domain without mutating input', () => {
   assert.deepEqual(tabs.map((t) => t.id), [1, 2, 3]);
 });
 
+test('sortTabs re-sorts without querying or mutating the input array', () => {
+  const tabs = [
+    { id: 1, url: 'https://z.test/' },
+    { id: 2, url: 'https://a.test/' }
+  ];
+  const out = core.sortTabs(tabs, { ...settings, sortOrder: 'az' });
+  assert.deepEqual(out.map((t) => t.id), [2, 1]);
+  assert.deepEqual(tabs.map((t) => t.id), [1, 2]);
+});
+
 test('formatLinks supports dot, paren, dash and page titles', () => {
   const tabs = [{ title: 'Google', url: 'https://google.test/' }, { title: 'MDN', url: 'https://mdn.test/' }];
   assert.equal(core.formatLinks(tabs, settings), '1. https://google.test/\n2. https://mdn.test/');

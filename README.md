@@ -250,13 +250,18 @@ Click the globe icon in the header and pick a language. The default is English; 
 ├── manifest.json      ← single source MV3 manifest (the build emits one variant per browser)
 ├── popup.html/css/js  ← the interface (Inter first, Cairo/Tajawal for Arabic, logical RTL)
 ├── i18n.js            ← locale loader, plural rules, direction switching
+├── browser.js         ← host browser detection + shared system-page prefixes
+├── core.js            ← pure tab/link logic shared by popup and background
+├── preview.js         ← preview renderer with node reuse for fast search
 ├── locales/           ← eight complete dictionaries (en, es, fr, de, pt-BR, ru, ar, zh-CN)
 ├── background.js      ← one shared background: service_worker, emitted as scripts for Firefox
 ├── icons/             ← 16 / 32 / 48 / 128
-├── assets/            ← README screenshots + browser icons
+├── assets/            ← README screenshots (one folder per language) + browser icons
 ├── tools/build.py     ← store builds + SHA256 (used by CI and releases)
 ├── tools/check_locales.py ← key parity, plural categories, placeholder validation
-└── tools/screenshots.py   ← regenerates every README screenshot from the real popup
+├── tools/screenshots.py   ← regenerates every README screenshot from the real popup
+├── tools/bench.py     ← 100-tab benchmark (headless Chrome + mocked extension APIs)
+└── tools/test_*.mjs   ← Node tests: core logic, badge behaviour, preview node reuse
 ```
 
 </div>
