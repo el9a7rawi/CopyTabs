@@ -195,7 +195,7 @@ Mit **Seitentitel einbeziehen**:
 
 | Prinzip | Umsetzung |
 |---|---|
-| Läuft vollständig offline | Null Netzwerkanfragen |
+| Läuft vollständig offline | Nur das optionale Google-Fonts-Stylesheet — keine Daten werden gesendet |
 | Minimale Berechtigungen | Nur `tabs`, `storage`, `contextMenus` und `downloads` |
 | Deine Daten bleiben bei dir | Einstellungen und Verlauf in `storage.local` — kein Link wird an einen Server gesendet |
 
@@ -206,10 +206,10 @@ Mit **Seitentitel einbeziehen**:
 ## 9. Häufige Fragen
 
 **9.1 Funktioniert es ohne Internetverbindung?**
-Ja, vollständig; die einzige externe Ressource sind die Stylesheets der Schriften Inter und Cairo von Google Fonts, und die Erweiterung fällt automatisch auf lokale Schriften zurück. Jedes Wörterbuch ist lokal enthalten.
+Ja, vollständig; die einzige externe Ressource sind die Stylesheets der Schriften Inter, Cairo und Tajawal von Google Fonts, und die Erweiterung fällt automatisch auf lokale Schriften zurück. Jedes Wörterbuch ist lokal enthalten.
 
 **9.2 Werden Daten gesammelt?**
-Nein. Die Erweiterung stellt keine Netzwerkanfragen — du kannst das selbst im Quellcode prüfen.
+Nein. Kein Link, keine Einstellung und keine Präferenz wird irgendwohin gesendet — du kannst das selbst im Quellcode prüfen.
 
 **9.3 Wie ändere ich das Nummerierungsformat?**
 Öffne *Export anpassen → Nummerierungsformat*: `1.`, `1)` oder `-`.

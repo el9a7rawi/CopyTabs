@@ -207,7 +207,7 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 
 | Principle | How it is applied |
 |---|---|
-| Works fully offline | Zero network requests |
+| Works fully offline | Only the optional Google Fonts stylesheet; no data is sent anywhere |
 | Least privilege | Only `tabs`, `storage`, `contextMenus`, and `downloads` |
 | Your data stays on your device | Settings and history live in `storage.local` — no link is ever sent to a server |
 
@@ -218,10 +218,10 @@ Open the [Releases](https://github.com/el9a7rawi/CopyTabs/releases) page and dow
 ## 9. Frequently asked questions
 
 **9.1 Does it work without an internet connection?**
-Yes, entirely; the only remote resources are the Inter and Cairo font stylesheets from Google Fonts, and the extension falls back to local fonts automatically when they are unreachable. Every language dictionary is bundled locally.
+Yes, entirely; the only remote resources are the Inter, Cairo, and Tajawal font stylesheets from Google Fonts, and the extension falls back to local fonts automatically when they are unreachable. Every language dictionary is bundled locally.
 
 **9.2 Is any of my data collected?**
-No. The extension makes no network requests at all — you can verify that yourself in the source.
+No. No link, setting, or preference is ever sent anywhere — you can verify that yourself in the source.
 
 **9.3 How do I change the numbering format?**
 Open *Customize the export → Numbering format*: `1.`, `1)`, or `-`.

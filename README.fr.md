@@ -195,7 +195,7 @@ Ouvrez la page des [Releases](https://github.com/el9a7rawi/CopyTabs/releases) et
 
 | Principe | Application |
 |---|---|
-| Fonctionne entièrement hors ligne | Zéro requête réseau |
+| Fonctionne entièrement hors ligne | Seule la feuille de style Google Fonts, facultative — aucune donnée envoyée |
 | Permissions minimales | Uniquement `tabs`, `storage`, `contextMenus` et `downloads` |
 | Vos données restent chez vous | Réglages et historique dans `storage.local` — aucun lien envoyé à un serveur |
 
@@ -206,10 +206,10 @@ Ouvrez la page des [Releases](https://github.com/el9a7rawi/CopyTabs/releases) et
 ## 9. Questions fréquentes
 
 **9.1 Fonctionne-t-il sans connexion ?**
-Oui, entièrement ; la seule ressource distante est la feuille de style des polices Inter et Cairo de Google Fonts, et l’extension revient aux polices locales si elle est inaccessible. Chaque dictionnaire est embarqué.
+Oui, entièrement ; la seule ressource distante est la feuille de style des polices Inter, Cairo et Tajawal de Google Fonts, et l’extension revient aux polices locales si elle est inaccessible. Chaque dictionnaire est embarqué.
 
 **9.2 Mes données sont-elles collectées ?**
-Non. L’extension n’effectue aucune requête réseau — vous pouvez le vérifier vous-même dans les sources.
+Non. Aucun lien, réglage ou préférence n’est envoyé où que ce soit — vous pouvez le vérifier vous-même dans les sources.
 
 **9.3 Comment changer le format de numérotation ?**
 Ouvrez *Personnaliser l’exportation → Format de numérotation* : `1.`, `1)` ou `-`.

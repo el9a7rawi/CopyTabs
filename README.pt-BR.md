@@ -195,7 +195,7 @@ Abra a página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) e b
 
 | Princípio | Como é aplicado |
 |---|---|
-| Funciona totalmente offline | Zero requisições de rede |
+| Funciona totalmente offline | Apenas a folha de estilos opcional do Google Fonts — nenhum dado é enviado |
 | Permissões mínimas | Apenas `tabs`, `storage`, `contextMenus` e `downloads` |
 | Seus dados ficam no seu dispositivo | Configurações e histórico em `storage.local` — nenhum link é enviado a um servidor |
 
@@ -206,10 +206,10 @@ Abra a página de [Releases](https://github.com/el9a7rawi/CopyTabs/releases) e b
 ## 9. Perguntas frequentes
 
 **9.1 Funciona sem internet?**
-Sim, por completo; o único recurso remoto são as folhas de estilo das fontes Inter e Cairo do Google Fonts, e a extensão volta às fontes locais automaticamente quando elas não carregam. Cada dicionário é incluído localmente.
+Sim, por completo; o único recurso remoto são as folhas de estilo das fontes Inter, Cairo e Tajawal do Google Fonts, e a extensão volta às fontes locais automaticamente quando elas não carregam. Cada dicionário é incluído localmente.
 
 **9.2 Algum dado meu é coletado?**
-Não. A extensão não faz nenhuma requisição de rede — você pode verificar isso no código-fonte.
+Não. Nenhum link, configuração ou preferência é enviado a lugar algum — você pode verificar isso no código-fonte.
 
 **9.3 Como mudo o formato da numeração?**
 Abra *Personalize a exportação → Formato da numeração*: `1.`, `1)` ou `-`.
