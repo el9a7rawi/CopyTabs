@@ -7,6 +7,10 @@ import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const listeners = {};
 const calls = { query: 0, badgeText: [], badgeColor: 0, storageGet: 0 };
+const menuOps = [];
+let lastErrorReads = 0;
+let lastErrorValue = undefined;
+let simulateMenuError = false;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 let queryDelay = 0;
 let queryTabs = null;
@@ -57,8 +61,14 @@ global.chrome = {
     onChanged: { addListener: (fn) => on('storage', 'changed', fn) }
   },
   contextMenus: {
-    removeAll: (cb) => cb(),
-    create: () => {},
+    // callback async ليفتح نافذة التداخل التي تسبب duplicate id في كروم
+    removeAll: (cb) => { menuOps.push('remove'); setTimeout(cb, 10); },
+    create: (item, cb) => {
+      menuOps.push('create:' + item.id);
+      if (simulateMenuError) lastErrorValue = { message: 'simulated duplicate' };
+      if (cb) cb();
+      lastErrorValue = undefined;
+    },
     onClicked: { addListener: (fn) => on('contextMenus', 'clicked', fn) }
   },
   commands: { onCommand: { addListener: (fn) => on('commands', 'command', fn) } },
@@ -83,6 +93,10 @@ global.chrome = {
   },
   downloads: { download: async () => 1 }
 };
+
+Object.defineProperty(chrome.runtime, 'lastError', {
+  get() { lastErrorReads++; return lastErrorValue; }, configurable: true
+});
 
 await import('../background.js?test=' + Date.now());
 
@@ -123,6 +137,40 @@ test('a slower older badge refresh cannot overwrite a newer count', async () => 
   queryDelay = 0;
   queryTabs = null;
   assert.equal(calls.badgeText.at(-1), '7', 'the newest query must win the final badge write');
+});
+
+test('overlapping language changes never create the context menu twice', async () => {
+  const before = menuOps.length;
+  listeners.storage.changed({ ct_settings: { oldValue: { lang: 'en' }, newValue: { lang: 'ar' } } }, 'local');
+  listeners.storage.changed({ ct_settings: { oldValue: { lang: 'ar' }, newValue: { lang: 'fr' } } }, 'local');
+  await wait(150);
+  const ops = menuOps.slice(before);
+  assert.deepEqual(ops, ['remove', 'create:ct-export', 'remove', 'create:ct-export'],
+    'every create must be preceded by a completed removeAll — no duplicate id');
+});
+
+test('install and startup rebuilds use the same serialized queue', async () => {
+  const before = menuOps.length;
+  listeners.runtime.installed({ reason: 'install' });
+  listeners.runtime.startup();
+  await wait(150);
+  assert.deepEqual(menuOps.slice(before), ['remove', 'create:ct-export', 'remove', 'create:ct-export']);
+});
+
+test('first install does not rebuild the menu twice via storage.onChanged', async () => {
+  const before = menuOps.length;
+  listeners.storage.changed({ ct_settings: { oldValue: undefined, newValue: { lang: '' } } }, 'local');
+  await wait(100);
+  assert.equal(menuOps.length, before);
+});
+
+test('menu callbacks consume chrome.runtime.lastError', async () => {
+  const before = lastErrorReads;
+  simulateMenuError = true;
+  listeners.storage.changed({ ct_settings: { oldValue: { lang: 'en' }, newValue: { lang: 'de' } } }, 'local');
+  await wait(150);
+  simulateMenuError = false;
+  assert.ok(lastErrorReads >= before + 2, 'removeAll and create callbacks must both consume lastError');
 });
 
 test('a transient storage failure does not poison future settings reads', async () => {

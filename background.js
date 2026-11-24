@@ -44,9 +44,16 @@ async function getSettings() {
   return settingsPromise;
 }
 
+let menuSetupQueue = Promise.resolve();
+
 function setupContextMenu() {
-  try {
-    chrome.contextMenus.removeAll(async () => {
+  // removeAll غير متزامن — استدعاءان متداخلان يفتحان باب duplicate id ct-export
+  menuSetupQueue = menuSetupQueue.then(async () => {
+    try {
+      await new Promise((resolve) => chrome.contextMenus.removeAll(() => {
+        void chrome.runtime.lastError; // استهلاك إلزامي لتجنب تحذير الكروم
+        resolve();
+      }));
       const s = await getSettings();
       const lang = s.lang || matchLocale(chrome.i18n.getUILanguage()) || 'en';
       await loadLocale(lang);
@@ -54,9 +61,13 @@ function setupContextMenu() {
         id: 'ct-export',
         title: t('contextMenuTitle'),
         contexts: ['action']
+      }, () => {
+        const error = chrome.runtime.lastError; // استهلاك lastError يمنع تحذير الكروم
+        if (error) console.warn('[CopyTabs] context menu:', error.message);
       });
-    });
-  } catch { /* بيئة غير داعمة */ }
+    } catch { /* بيئة غير داعمة */ }
+  });
+  return menuSetupQueue;
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -64,7 +75,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
   const before = changes.ct_settings.oldValue?.lang;
   const after = changes.ct_settings.newValue?.lang;
   cachedSettings = { ...SETTINGS_DEFAULTS, ...(changes.ct_settings.newValue || {}) };
-  if (before !== after) setupContextMenu();
+  // التثبيت الأول يبني القائمة صراحةً في onInstalled — لا نبنيها مرتين
+  if (before !== undefined && before !== after) setupContextMenu();
 });
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
