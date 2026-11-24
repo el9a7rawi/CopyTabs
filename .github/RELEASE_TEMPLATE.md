@@ -4,14 +4,14 @@
 
 <h1 align="center">CopyTabs v{{VERSION}}</h1>
 
-<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline.</p>
+<p align="center">Fifteen tabs open for one research session? CopyTabs collects every open URL into a single numbered <code>.txt</code> file and your clipboard in one click — no manual copy-paste, fully offline. English by default, eight languages, and full Arabic RTL.</p>
 
 <p align="center">
   <a href="https://github.com/el9a7rawi/CopyTabs/releases"><img src="https://img.shields.io/github/v/release/el9a7rawi/CopyTabs?color=4f46e5" alt="Latest release" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-E8710A" alt="Apache 2.0" /></a>
   <a href="https://github.com/el9a7rawi/CopyTabs/pulls"><img src="https://img.shields.io/badge/PRs-Welcome-22C55E" alt="PRs welcome" /></a>
   <a href="https://developer.chrome.com/docs/extensions"><img src="https://img.shields.io/badge/Manifest-V3-4285F4" alt="Manifest V3" /></a>
-  <img src="https://img.shields.io/badge/Arabic_RTL_Interface-7c3aed" alt="Arabic RTL interface" />
+  <img src="https://img.shields.io/badge/8_Languages-7c3aed" alt="8 languages" />
   <img src="https://img.shields.io/badge/Works-Offline-059669" alt="Works offline" />
 </p>
 
@@ -47,7 +47,7 @@
 
 1. Unzip the archive.
 2. Open `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
-3. The signed build is always available on the AMO add-on page (coming soon).
+3. A signed build will be published on the AMO add-on page (coming soon).
 
 ---
 
